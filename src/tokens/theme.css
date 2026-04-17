@@ -1,0 +1,114 @@
+/**
+ * Primitive Design Tokens (raw values)
+ * All hex codes live ONLY here — prefixed with --ds- to separate from Tailwind @theme layer.
+ * globals.css maps these into Tailwind utilities via @theme.
+ */
+
+:root {
+  /* ── Font ────────────────────────────────────────────── */
+  --ds-font-family-base:    'Pretendard', sans-serif;
+  --ds-font-weight-regular: 400;
+  --ds-font-weight-medium:  500;
+  --ds-font-weight-semibold:600;
+
+  /* ── Font Size ───────────────────────────────────────── */
+  --ds-font-size-text-s:    12px;
+  --ds-font-size-text-m:    14px;
+  --ds-font-size-text-l:    16px;
+  --ds-font-size-title-xs:  18px;
+  --ds-font-size-title-s:   20px;
+  --ds-font-size-title-m:   24px;
+  --ds-font-size-title-l:   30px;
+  --ds-font-size-title-xl:  32px;
+  --ds-font-size-title-xxl: 38px;
+
+  /* ── Line Height ─────────────────────────────────────── */
+  --ds-lh-text-s:    20px;
+  --ds-lh-text-m:    22px;
+  --ds-lh-text-l:    24px;
+  --ds-lh-title-xs:  26px;
+  --ds-lh-title-s:   28px;
+  --ds-lh-title-m:   32px;
+  --ds-lh-title-l:   38px;
+  --ds-lh-title-xl:  40px;
+  --ds-lh-title-xxl: 46px;
+
+  /* ── Spacing ─────────────────────────────────────────── */
+  --ds-spacing-50:  2px;
+  --ds-spacing-100: 4px;
+  --ds-spacing-150: 6px;
+  --ds-spacing-200: 8px;
+  --ds-spacing-250: 10px;
+  --ds-spacing-300: 12px;
+  --ds-spacing-400: 16px;
+  --ds-spacing-500: 20px;
+  --ds-spacing-600: 24px;
+  --ds-spacing-800: 32px;
+
+  /* ── Border Radius ───────────────────────────────────── */
+  --ds-radius-xxs:  2px;
+  --ds-radius-xs:   4px;
+  --ds-radius-m:    8px;
+  --ds-radius-l:    12px;
+  --ds-radius-full: 9999px;
+
+  /* ── Icon Size ───────────────────────────────────────── */
+  --ds-icon-s: 16px;
+  --ds-icon-m: 20px;
+  --ds-icon-l: 24px;
+
+  /* ── Button Size ─────────────────────────────────────── */
+  --ds-btn-height-s:     28px;
+  --ds-btn-height-m:     32px;
+  --ds-btn-height-l:     40px;
+  --ds-btn-min-width-s:  48px;
+  --ds-btn-min-width-m:  56px;
+  --ds-btn-min-width-l:  64px;
+
+  /* ── Color: Foreground ───────────────────────────────── */
+  --ds-fg:            #1a1a1a;
+  --ds-fg-low:        #666666;
+  --ds-fg-lower:      #8a8a8a;
+  --ds-fg-disabled:   #cccccc;
+  --ds-fg-inverse:    #ffffff;
+  --ds-fg-on-contrast:#ffffff;
+  --ds-fg-critical:   #f31110;
+  --ds-fg-warning:    #fa9200;
+  --ds-fg-success:    #1ea514;
+
+  /* ── Color: Background ───────────────────────────────── */
+  --ds-bg:              #ffffff;
+  --ds-bg-low:          #f5f5f5;
+  --ds-bg-disabled:     #f5f5f5;
+  --ds-bg-contrast:     #000000;
+  --ds-bg-neutral-low:  #ebebeb;
+  --ds-bg-warning-low:  #fff4e5;
+  --ds-bg-critical-low: #ffecec;
+  --ds-bg-success-low:  #ecffec;
+
+  /* ── Color: Accent ───────────────────────────────────── */
+  --ds-accent:       #245eff;
+  --ds-accent-light: #417eff;
+  --ds-accent-dark:  #1a47cc;
+  --ds-accent-low:   #e2f1ff;
+  --ds-accent-focus: #b8d4ff;
+
+  /* ── Color: Stroke ───────────────────────────────────── */
+  --ds-stroke-border:          #e0e0e0;
+  --ds-stroke-border-strong:   #000000;
+  --ds-stroke-border-critical: #f31110;
+  --ds-stroke-border-success:  #1ea514;
+  --ds-stroke-border-disabled: #ebebeb;
+  --ds-stroke-divide:          #ebebeb;
+  --ds-stroke-divide-low:      #f5f5f5;
+  --ds-divide:                 #e0e0e0;
+
+  /* ── Button Component Tokens ─────────────────────────── */
+  --btn-secondary-bg:             #ebecf1;
+  --btn-secondary-bg-pressed:     #d8dae0;
+  --btn-secondary-outline-border: #cccccc;
+  --btn-ghost-hover-bg:           #f8f9fc;
+  --btn-negative-bg-hover:        #ff5e56;
+  --btn-negative-bg-pressed:      #b30c0c;
+  --btn-disabled-fg:              rgba(0, 0, 0, 0.2);
+}

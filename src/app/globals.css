@@ -1,0 +1,100 @@
+@import "tailwindcss";
+@import "../tokens/theme.css";
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   @theme — Tailwind v4 Design Token Mapping
+   Maps --ds-* primitives to Tailwind utility namespaces.
+   No hex codes here — all values reference CSS variables from theme.css.
+───────────────────────────────────────────────────────────────────────────── */
+
+@theme {
+  /* ── Font ─────────────────────────────────────────────── */
+  --font-family-base: var(--ds-font-family-base);
+
+  /* ── Spacing (p-50 / gap-400 / mx-200 …) ─────────────── */
+  --spacing-50:  var(--ds-spacing-50);
+  --spacing-100: var(--ds-spacing-100);
+  --spacing-150: var(--ds-spacing-150);
+  --spacing-200: var(--ds-spacing-200);
+  --spacing-250: var(--ds-spacing-250);
+  --spacing-300: var(--ds-spacing-300);
+  --spacing-400: var(--ds-spacing-400);
+  --spacing-500: var(--ds-spacing-500);
+  --spacing-600: var(--ds-spacing-600);
+  --spacing-800: var(--ds-spacing-800);
+
+  /* ── Border Radius (rounded-xs / rounded-m …) ─────────── */
+  --radius-xxs:  var(--ds-radius-xxs);
+  --radius-xs:   var(--ds-radius-xs);
+  --radius-m:    var(--ds-radius-m);
+  --radius-l:    var(--ds-radius-l);
+  --radius-full: var(--ds-radius-full);
+
+  /* ── Colors: Foreground (text-fg / bg-fg / border-fg …) ─ */
+  --color-fg:            var(--ds-fg);
+  --color-fg-low:        var(--ds-fg-low);
+  --color-fg-lower:      var(--ds-fg-lower);
+  --color-fg-disabled:   var(--ds-fg-disabled);
+  --color-fg-inverse:    var(--ds-fg-inverse);
+  --color-fg-on-contrast:var(--ds-fg-on-contrast);
+  --color-fg-critical:   var(--ds-fg-critical);
+  --color-fg-warning:    var(--ds-fg-warning);
+  --color-fg-success:    var(--ds-fg-success);
+
+  /* ── Colors: Background ───────────────────────────────── */
+  --color-bg:              var(--ds-bg);
+  --color-bg-low:          var(--ds-bg-low);
+  --color-bg-disabled:     var(--ds-bg-disabled);
+  --color-bg-contrast:     var(--ds-bg-contrast);
+  --color-bg-neutral-low:  var(--ds-bg-neutral-low);
+  --color-bg-warning-low:  var(--ds-bg-warning-low);
+  --color-bg-critical-low: var(--ds-bg-critical-low);
+  --color-bg-success-low:  var(--ds-bg-success-low);
+
+  /* ── Colors: Accent ───────────────────────────────────── */
+  --color-accent:       var(--ds-accent);
+  --color-accent-light: var(--ds-accent-light);
+  --color-accent-dark:  var(--ds-accent-dark);
+  --color-accent-low:   var(--ds-accent-low);
+  --color-accent-focus: var(--ds-accent-focus);
+
+  /* ── Colors: Stroke ───────────────────────────────────── */
+  --color-stroke-border:          var(--ds-stroke-border);
+  --color-stroke-border-strong:   var(--ds-stroke-border-strong);
+  --color-stroke-border-critical: var(--ds-stroke-border-critical);
+  --color-stroke-border-success:  var(--ds-stroke-border-success);
+  --color-stroke-border-disabled: var(--ds-stroke-border-disabled);
+  --color-stroke-divide:          var(--ds-stroke-divide);
+  --color-stroke-divide-low:      var(--ds-stroke-divide-low);
+  --color-divide:                 var(--ds-divide);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Typography Utilities (font-size + line-height paired)
+   text-s / text-m / text-l / text-title-xs … text-title-xxl
+───────────────────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  .text-s        { font-size: var(--ds-font-size-text-s);    line-height: var(--ds-lh-text-s); }
+  .text-m        { font-size: var(--ds-font-size-text-m);    line-height: var(--ds-lh-text-m); }
+  .text-l        { font-size: var(--ds-font-size-text-l);    line-height: var(--ds-lh-text-l); }
+  .text-title-xs { font-size: var(--ds-font-size-title-xs);  line-height: var(--ds-lh-title-xs); }
+  .text-title-s  { font-size: var(--ds-font-size-title-s);   line-height: var(--ds-lh-title-s); }
+  .text-title-m  { font-size: var(--ds-font-size-title-m);   line-height: var(--ds-lh-title-m); }
+  .text-title-l  { font-size: var(--ds-font-size-title-l);   line-height: var(--ds-lh-title-l); }
+  .text-title-xl { font-size: var(--ds-font-size-title-xl);  line-height: var(--ds-lh-title-xl); }
+  .text-title-xxl{ font-size: var(--ds-font-size-title-xxl); line-height: var(--ds-lh-title-xxl); }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Base
+───────────────────────────────────────────────────────────────────────────── */
+
+@layer base {
+  html {
+    font-family: var(--ds-font-family-base), sans-serif;
+    color: var(--color-fg);
+    background-color: var(--color-bg-low);
+    -webkit-font-smoothing: antialiased;
+  }
+}
