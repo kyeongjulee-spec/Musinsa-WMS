@@ -1,1617 +1,1297 @@
-# 무신사 로지스틱스 디자인 시스템
+# 무신사 물류 WMS — 디자인 시스템 문서
 
-## 개요
-
-무신사 로지스틱스 웹/PDA 인터페이스는 **물류 운영의 효율성과 가독성을 최우선으로 설계된 엔터프라이즈 UI 시스템**이다. 흰색 캔버스 위에 구조화된 그리드, 명확한 타이포그래피 위계, 단일 블루 포인트 컬러로 구성된 이 시스템은 복잡한 데이터와 운영 흐름을 빠르게 파악할 수 있도록 최소한의 장식으로 설계되었다.
-
-컬러 팔레트는 회색 계열 중심으로 구성되어 있으며, 단일 액션 컬러(Blue/500 #245EFF)와 에러 컬러(Red/500 #F94A4A)만이 의미 있는 색 정보를 전달한다. 폰트는 한글은 Noto Sans KR, 영문/숫자는 Noto Sans Mono를 사용하여 물류 데이터의 가독성을 극대화한다. UI 레이블 및 보조 텍스트에는 Pretendard를 기반으로 한다.
-
-**핵심 특성:**
-- 데이터 중심 레이아웃: 테이블, 인풋, LNB(좌측 내비게이션)가 UI의 주요 구성 요소
-- 회색 계열 + 단일 블루 액션 컬러 시스템
-- 상태 기반 토큰 설계: enabled / hover / pressed / disabled / inverse(다크 배경) 상태를 명확히 구분
-- 두 가지 폰트 패밀리: 한글(Noto Sans KR) / 영문·숫자(Noto Sans Mono)
-- 1px `#F1F1F1` 보더로 구성된 카드 기반 정보 구조
+> **기준 화면**: 입고 › 입고관리 › 전체 펼침 / 출고 › Wave 관리 / 시스템 › 사용자 / 재고이동지시  
+> **캔버스 크기**: 1920 × 1080 px  
+> **배경**: `#FFFFFF`  
+> **최종 업데이트**: 시스템_사용자 / 재고이동지시 화면 반영
 
 ---
 
-## 컬러 시스템
+## 1. 컬러 팔레트
 
-> **분석 화면:** Color 토큰 시트, Background 토큰 시트, Border 토큰 시트, Icon 토큰 시트, Text 토큰 시트
+### Primary / Key Colors
 
-### Gray Scale (기본 팔레트)
-
-| 토큰명 | 헥스값 | 용도 |
+| 토큰 | Hex | 용도 |
 |---|---|---|
-| `gray/100` | #F1F1F1 | 섹션 헤더 배경, 카드 보더, 비활성 상태 배경 |
-| `gray/200` | #E6E6E6 | 비활성화(disabled) 요소 컬러 스와치 |
-| `gray/300` | #D9D9D9 | Tertiary 텍스트용 아이콘, 보더 토큰 |
-| `gray/400` | #B3B3B3 | Disabled 텍스트용 아이콘 |
-| `gray/500` | #929292 | Secondary 아이콘, 토큰 헤더 레이블 |
-| `gray/600` | #7E7E7E | Tertiary 아이콘, LNB enabled/sub-enabled 아이콘 |
-| `gray/700` | #393939 | **기본 텍스트 컬러** — 모든 본문/레이블에 사용 |
-| `gray/800` | #242424 | Primary 아이콘, LNB Normal 배경 |
-| `gray/900` | #050505 | **다크 배경** — LNB 패널 배경, Inverse 상태 컨테이너 |
+| Key Blue | `#245EFF` | CTA 버튼, 활성 아이콘, 카운트 강조, 리사이즈 핸들 |
+| Light Blue (Badge BG) | `#B8D4FF` | 센터 선택 배지 배경 |
 
-### 브랜드 & 액션 컬러
+### Grayscale
 
-| 토큰명 | 헥스값 | 용도 |
+| 토큰 | Hex | 용도 |
 |---|---|---|
-| `blue/300` | #649CFF | LNB Active 아이콘 (다크 배경 위) |
-| `blue/500` | #245EFF | **Primary 액션** — 주요 버튼, 활성 상태, 하이라이트, 링크 |
-| `blue/600` | #1F53E6 | Primary 버튼 hover (inverse) |
-| `blue/700` | #1A47CC | Primary 버튼 pressed (inverse) |
+| gray/900 (LNB BG) | `#242424` | LNB 배경, 기본 텍스트, Primary 버튼 BG |
+| gray/800 | `#393939` | LNB 활성 메뉴 배경 |
+| gray/700 | `#050505` | LNB 현재 선택 메뉴 배경 |
+| gray/500 | `#929292` | 비활성 아이콘, 보조 텍스트, 카운트 비활성 |
+| gray/400 | `#7E7E7E` | 비활성 아이콘, 일반 보조 텍스트 |
+| gray/300 | `#D9D9D9` | 구분선, Disabled 버튼 BG, 비활성 셀 BG |
+| gray/200 | `#E6E6E6` | 테이블 셀 하단 border, Disabled 버튼 border |
+| gray/100 | `#F1F1F1` | 필터 영역 BG, 테이블 헤더 BG, 리사이즈 바 BG |
+| gray/50 | `#FAFAFA` | 스크롤바 배경 |
+| white | `#FFFFFF` | 기본 배경, 입력 필드, 버튼 |
+| text/placeholder | `#B3B3B3` | 입력 플레이스홀더, 비활성 라벨 |
 
-### 시멘틱 컬러
+### Semantic
 
-| 토큰명 | 헥스값 | 용도 |
+| 토큰 | Hex | 용도 |
 |---|---|---|
-| `red/500` | #F94A4A | 에러 메시지, 경고 텍스트, 에러 아이콘 |
+| accent/yellow | `#FFC700` | 별 아이콘 (화주 필드 앞 마크) |
+| active/icon-blue | `#649CFF` | LNB 현재 선택 메뉴 아이콘 (출고·입고 활성) |
+| user/center-text | `#245EFF` | LNB 확장 시 센터 이름 텍스트 강조 |
 
-### 중립 컬러
+### Status Tag 컬러
 
-| 토큰명 | 헥스값 | 용도 |
+> 피그마 StatusTag 컴포넌트 CSS 기준. `tinted` 레이어가 있는 variant는 base BG 위에 `rgba(0,0,0,0.05)` 오버레이가 중첩됩니다.
+
+| 토큰 | BG (base) | tinted overlay | Text | badge dot | 비고 |
+|---|---|---|---|---|---|
+| status/default | `#FFFFFF` | `rgba(0,0,0,0.05)` ✓ | `#666666` | `#666666` | 중립 상태 |
+| status/progress-primary | `#E2F1FF` | — | `#245EFF` | `#245EFF` | 진행(primary/blue) |
+| status/progress-secondary | `#E6FFFB` | `rgba(0,0,0,0.05)` ✓ | `#08979C` | `#08979C` | 진행(secondary/teal) |
+| status/progress-tertiary | `#F9F0FF` | `rgba(0,0,0,0.05)` ✓ | `#722ED1` | `#722ED1` | 진행(tertiary/purple) |
+| status/success | `#ECFFEC` | `rgba(0,0,0,0.05)` ✓ | `#1EA514` | `#1EA514` | 완료 |
+| status/warning | `#FFF4E5` | — | `#DB7F00` | `#DB7F00` | 주의·경고 |
+| status/critical | `#FFECEC` | — | `#D50F0E` | `#D50F0E` | 중단·즉시 조치 필요 |
+
+### Progress Bar 컬러 (출고_Wave 신규)
+
+| 상태 | 배경 색상 | 설명 |
 |---|---|---|
-| — | #FFFFFF | 기본 페이지 배경, 카드 배경, 인풋 배경(enabled) |
-| — | #000000 | 로고 텍스트, 시스템 레벨 컬러 |
+| 일반 진행 | `rgba(36,94,255,0.15)` | 파란 반투명 fill |
+| 완료(100%) | `rgba(36,94,255,0.15)` | 동일 색상, 전체 채움 |
+| 선택된 행(Highlighted) | `#649CFF` (solid) | 파란 solid fill (B8D4FF 배경 행) |
+| 비활성 | `#E6E6E6` | 트랙 배경, 단포 등 미시작 |
 
 ---
 
-## 색상 토큰 (Semantic Color Tokens)
-
-### Text 토큰
-
-| 토큰 | 컬러 참조 | 설명 |
-|---|---|---|
-| `color.text.common.primary` | `gray/700` (#393939) | 본문, 타이틀, 데이터, 버튼 레이블 등 기본 텍스트 |
-| `color.text.common.5` | `gray/700` (#393939) | (Primary와 동일한 값으로 사용) |
-| `color.text.common.secondary` | `gray/700` (#393939) | 본문 텍스트보다 중요도가 낮은 보조 텍스트 |
-| `color.text.common.tertiary` | `gray/700` (#393939) | 플레이스홀더, 도움말 같은 3차 텍스트 |
-| `color.text.common.disabled` | `gray/400` (#B3B3B3) | 비활성화 상태의 텍스트 |
-| `color.text.common.disabled-inverse` | `gray/600` (#7E7E7E) | 어두운 배경 위의 비활성화 텍스트 |
-| `color.text.common.success` | `blue/500` (#245EFF) | 완료, 성공 등의 긍정적 메시지 |
-| `color.text.common.error` | `red/500` (#F94A4A) | 에러 메시지, 주의 텍스트 |
-| `color.text.common.highlight` | `blue/500` (#245EFF) | 강조가 필요한 텍스트 (예: 검색어 하이라이트) |
-| `color.text.common.link` | `blue/500` (#245EFF) | 텍스트 버튼, 링크 (밑줄로 클릭 가능 암시) |
-| `color.text.table.cell` | `gray/800` (#242424) | 테이블 셀 내 텍스트 |
-| `color.text.table.column` | `gray/600` (#7E7E7E) | 테이블 컬럼 헤더 텍스트 |
-| `color.text.table.count` | `blue/500` (#245EFF) | 테이블 리스트 카운팅 텍스트 |
-
-### Icon 토큰
-
-| 토큰 | 컬러 참조 | 설명 |
-|---|---|---|
-| `color.icon.primary` | `gray/900` (#050505) | 단독 아이콘 버튼 또는 primary 텍스트와 함께 사용 |
-| `color.icon.secondary` | `gray/500` (#929292) | secondary 텍스트와 함께 사용 |
-| `color.icon.tertiary` | `gray/100` (#F1F1F1) | 중요도가 낮은 아이콘 |
-| `color.icon.lnb.enabled` | `gray/600` (#7E7E7E) | LNB 활성화된 메뉴 아이콘 |
-| `color.icon.lnb.active` | `blue/300` (#649CFF) | LNB 선택된 메뉴 아이콘 |
-| `color.icon.lnb.disabled` | `gray/800` (#242424) | LNB 비활성화 메뉴 아이콘 |
-| `color.icon.lnb.sub-enabled` | `gray/600` (#7E7E7E) | LNB 하위메뉴 활성화 아이콘 |
-| `color.icon.lnb.sub-active` | `gray/600` (#7E7E7E) | LNB 하위메뉴 선택 아이콘 |
-| `color.icon.lnb.sub-disabled` | `gray/800` (#242424) | LNB 하위메뉴 비활성화 아이콘 |
-| `color.icon.input.enabled` | `gray/500` (#929292) | 인풋 내 활성화 아이콘 |
-| `color.icon.input.disabled` | `gray/300` (#D9D9D9) | 인풋 내 비활성화 아이콘 |
-| `color.icon.input.disabled-inverse` | `gray/600` (#7E7E7E) | 어두운 배경 인풋 내 비활성화 아이콘 |
-| `color.icon.error` | `red/500` (#F94A4A) | 에러/경고 아이콘 |
-
-### Background 토큰
-
-| 토큰 | 컬러 참조 | 설명 |
-|---|---|---|
-| `color.bg.common.login` | `gray/800` (#242424, opacity 80%) | 로그인 화면 입력창 배경 |
-| `color.bg.common.dim` | `gray/800` (#242424, opacity 70%) | 팝업 딤 처리 배경 |
-| `color.bg.lnb.normal` | `gray/800` (#242424) | LNB 기본 배경 |
-| `color.bg.lnb.active` | `gray/900` (#050505) | 선택된 LNB 메뉴 배경 |
-| `color.bg.lnb.hover` | `gray/700` (#393939) | 마우스 호버 LNB 메뉴 배경 |
-| `color.bg.filter` | `gray/100` (#F1F1F1) | 필터 영역 배경 |
-| `color.bg.table.column` | `gray/100` (#F1F1F1) | 테이블 컬럼 영역 배경 |
-| `color.bg.table.column-selected` | `gray/200` (#E6E6E6) | 테이블 선택된 컬럼 배경 |
-| `color.bg.table.column-group` | `gray/300` (#D9D9D9) | 테이블 컬럼 상위 그룹명 배경 |
-| `color.bg.input.enabled` | #FFFFFF | 활성화된 인풋 배경 |
-| `color.bg.input.disabled` | `gray/200` (#E6E6E6) | 비활성화된 인풋 배경 |
-| `color.bg.input.enabled-inverse` | `gray/700` (#393939) | 어두운 배경 위 활성화 인풋 배경 |
-| `color.bg.input.disabled-inverse` | `gray/700` (#393939) | 어두운 배경 위 비활성화 인풋 배경 |
-| `color.bg.common.primary` | `gray/800` (#242424) | 주요 기능 버튼 배경 |
-| `color.bg.common.primary-hover` | `gray/700` (#393939) | 주요 버튼 hover |
-| `color.bg.common.primary-pressed` | `gray/700` (#393939) | 주요 버튼 클릭 |
-| `color.bg.common.primary-disabled` | `gray/200` (#E6E6E6) | 주요 버튼 비활성화 |
-| `color.bg.common.primary-inverse` | `blue/500` (#245EFF) | 어두운 배경 위 주요 버튼 |
-| `color.bg.common.primary-hover-inverse` | `blue/600` (#1F53E6) | 어두운 배경 위 주요 버튼 hover |
-| `color.bg.common.primary-pressed-inverse` | `blue/700` (#1A47CC) | 어두운 배경 위 주요 버튼 클릭 |
-| `color.bg.common.primary-disabled-inverse` | `gray/200` (#E6E6E6) | 어두운 배경 위 주요 버튼 비활성화 |
-| `color.bg.common.secondary` | #FFFFFF | 보조 기능 버튼 배경 |
-| `color.bg.common.secondary-hover` | `gray/100` (#F1F1F1) | 보조 버튼 hover |
-| `color.bg.common.secondary-pressed` | `gray/200` (#E6E6E6) | 보조 버튼 클릭 |
-| `color.bg.common.secondary-disabled` | `gray/200` (#E6E6E6) | 보조 버튼 비활성화 |
-| `color.bg.common.highlight` | `blue/500` (#245EFF) | 강조 영역 배경 |
-
-### Border 토큰
-
-| 토큰 | 컬러 참조 | 설명 |
-|---|---|---|
-| `color.border.divider` | `gray/300` (#D9D9D9) | 텍스트, 테이블 등 구분 라인 |
-| `color.border.table` | `gray/200` (#E6E6E6) | 테이블 바깥 테두리 |
-| `color.border.element` | `gray/300` (#D9D9D9) | 인풋, 버튼 등 요소 테두리 |
-| `color.border.element-active` | `blue/500` (#245EFF) | 활성화(포커스) 된 요소 테두리 |
-| `color.border.lnb` | `gray/800` (#242424) | LNB 메뉴 간 구분 라인 |
-
----
-
-## 타이포그래피
+## 2. 타이포그래피
 
 ### 폰트 패밀리
 
-| 용도 | 폰트 | 비고 |
-|---|---|---|
-| 한글 본문/헤드라인 | `Noto Sans KR` | 웹/PDA 한글 전용 |
-| 영문/숫자 본문/헤드라인 | `Noto Sans Mono` | 물류 데이터(코드, 숫자) 가독성 최적화 |
-| UI 레이블/보조 텍스트 | `Pretendard` | 모든 컴포넌트 레이블, 토큰 명세 텍스트 |
-| 브랜드/섹션 헤더 | `MUSINSA OTF` | 무신사 브랜드 전용 폰트 |
+| 패밀리 | 용도 |
+|---|---|
+| `Noto Sans KR` | 한국어 UI 텍스트 전반 |
+| `Noto Sans Mono` | 숫자·코드성 데이터 (테이블 셀, 카운트 배지, 진행률) |
+| `Pretendard` | Status Tag, Filter Tag 라벨 (Ant Design / 외부 컴포넌트 계열) |
 
-### 타입 스케일 (한글/영문 공통)
+### 스케일
 
-| 토큰 | 사이즈 | 굵기 | 행간 | 용도 |
-|---|---|---|---|---|
-| `Display/32-bold` | 32px | 700 | 36px (1.125) | 페이지 최상위 타이틀, 대시보드 숫자 |
-| `Headline/24-bold` | 24px | 700 | 36px (1.5) | 섹션 헤드라인 |
-| `Headline/20-bold` | 20px | 700 | 32px (1.6) | 서브 섹션 헤드라인 |
-| `Headline/16-bold` | 16px | 700 | 24px (1.5) | 카드 타이틀, 테이블 헤더 |
-| `Headline/16-regular` | 16px | 400 | 24px (1.5) | 중요도 낮은 헤드라인 |
-| `Body/14-bold` | 14px | 700 | 20px (1.43) | 강조 본문, 버튼 레이블(강조) |
-| `Body/14-medium` | 14px | 500 | 20px (1.43) | 중간 강조 본문 |
-| `Body/14-regular` | 14px | 400 | 20px (1.43) | 기본 본문 |
-| `Body/12-bold` | 12px | 700 | 18px (1.5) | 캡션 강조 |
-| `Body/12-medium` | 12px | 500 | 18px (1.5) | 캡션 중간 강조 |
-| `Body/12-regular` | 12px | 400 | 18px (1.5) | 캡션, 보조 텍스트 |
-
-### UI 레이블 (Pretendard 전용)
-
-| 용도 | 사이즈 | 굵기 | 행간 |
-|---|---|---|---|
-| 토큰/컴포넌트 레이블 | 16px | 600 | 24px |
-| 토큰 설명 | 16px | 400 | 24px |
-| 색상 칩 레이블 | 12px | 400 | 18px |
-
-### 원칙
-
-- **숫자/코드는 Noto Sans Mono**: 물류 시스템 특성상 송장번호, 수량, 코드 등 숫자 데이터는 반드시 Mono 폰트를 사용하여 자릿수 정렬을 보장한다.
-- **굵기 사다리: 400 / 500 / 700**: 중간 강조에는 500을 사용하고 최대 강조에는 700을 쓴다. 600은 Pretendard UI 레이블 전용.
-- **행간은 사이즈 대비 고정비**: 12px → 18px(1.5), 14px → 20px(1.43), 16px → 24px(1.5), 20px → 32px(1.6), 24px → 36px(1.5), 32px → 36px(1.125). 디스플레이 사이즈일수록 행간이 조밀해진다.
+| 토큰 | Font | Weight | Size | Line-height | 사용처 |
+|---|---|---|---|---|---|
+| KR/Headline/20-bold | Noto Sans KR | 700 | 20px | 32px | 페이지 제목 |
+| KR/Headline/16-bold | Noto Sans KR | 700 | 16px | 24px | 테이블 섹션 제목, 현황 카드 타이틀 |
+| KR/Headline/16-regular | Noto Sans KR | 400 | 16px | 24px | 탭 비활성 텍스트 |
+| KR/Body/14-bold | Noto Sans KR | 700 | 14px | 20px | 선택 센터 배지 텍스트, 필터 열기 버튼 |
+| KR/Body/14-medium | Noto Sans KR | 500 | 14px | 20px | 필터 라벨, 버튼 라벨, 바텀 상태 텍스트 |
+| KR/Body/14-regular | Noto Sans KR | 400 | 14px | 20px | 브레드크럼, "내 작업만 보기" 체크박스 라벨 |
+| KR/Body/12-medium | Noto Sans KR | 500 | 12px | 18px | 테이블 컬럼 헤더, 닫기 버튼 텍스트 |
+| KR/Body/12-regular | Noto Sans KR | 400 | 12px | 18px | Empty 안내 서브텍스트, 테이블 셀(KR) |
+| EN/Headline/24-bold | Noto Sans Mono | 700 | 24px | 36px | 현황 카드 주요 수치 (미완료 수) |
+| EN/Headline/16-bold | Noto Sans Mono | 700 | 16px | 24px | 현황 카드 보조 수치 (완료 수) |
+| EN/Body/12-bold | Noto Sans Mono | 700 | 12px | 18px | 카운트 배지 숫자, 진행률 % |
+| EN/Body/12-regular | Noto Sans Mono | 400 | 12px | 18px | 테이블 데이터 셀 값, 진행 분수 표시 |
+| EN/Body/12-medium | Noto Sans Mono | 500 | 12px | 18px | 비활성 단포 라벨 |
+| Pretendard/text-xs-medium | Pretendard | 500 | 12px | 150% | Status Tag 라벨 |
+| Pretendard/text-xs-semibold | Pretendard | 600 | 12px | 150% | Status Tag 카운트 |
+| Pretendard/text-m-medium | Pretendard | 500 | 14px | 140% | Filter Tag 라벨 |
+| Pretendard/text-m-semibold | Pretendard | 600 | 14px | 140% | Filter Tag 카운트 |
 
 ---
 
-## 레이아웃
-
-### 스페이싱 시스템
-
-기본 단위 8px 기반. 컴포넌트 내부 패딩에 20px이 자주 등장하는 특이점이 있다.
+## 3. 이펙트
 
 | 토큰 | 값 | 용도 |
 |---|---|---|
-| — | 4px | 아이콘-텍스트 간격, 칩 세로 패딩 |
-| — | 8px | 컴포넌트 내부 gap |
-| — | 10px | 아이템 간 gap |
-| — | 20px | 카드/셀 좌측 패딩 (주요 인덴트 단위) |
-| — | 24px | 페이지 좌측 여백 |
-
-### 그리드 & 컨테이너
-
-- **전체 컬럼 너비**: 1280px (COLOR 토큰 시트 기준), 1392px (FONT 시트 기준)
-- **페이지 좌측 여백**: 24px
-- **토큰 행 높이**: 144px (색상 토큰 행 1개 기준)
-- **섹션 헤더 높이**: 72px
-
-### Color 토큰 행 레이아웃 (3컬럼 구조)
-
-| 컬럼 | 너비 | 내용 |
-|---|---|---|
-| 토큰명 | 360px | `color.text.common.primary` 형식 레이블 |
-| 설명 | 680px | 한글 사용 용도 설명 |
-| 스와치 | 240px | 컬러 프리뷰 (45×45px 정방형 + 헥스 칩) |
-
-### Font 행 레이아웃 (4컬럼 구조)
-
-| 컬럼 | 너비 | 내용 |
-|---|---|---|
-| 토큰명 | 320px | `Display-32-bold` 형식 레이블 |
-| 스펙 | 320px | weight / size / line height 명세 |
-| 한글 미리보기 | 376px | `안녕하세요` (Noto Sans KR) |
-| 영문 미리보기 | 376px | `Hello` (Noto Sans Mono) |
+| Shadow/01 | `drop-shadow(0px 10px 15px rgba(0,0,0,0.05))` | 메인 테이블 컨테이너 |
 
 ---
 
-## 엘리베이션 & 뎁스
+## 4. 레이아웃 구조
 
-무신사 로지스틱스 UI는 그림자를 거의 사용하지 않는다. 뎁스는 **보더 색상 변화**와 **배경 명도 차이**로만 표현한다.
-
-| 레벨 | 처리 | 용도 |
-|---|---|---|
-| Flat | 없음 | 기본 페이지 배경, 테이블 셀 |
-| Hairline | 1px solid `#F1F1F1` | 카드, 테이블 외곽선, 컴포넌트 구분 |
-| Surface Change | `gray/100` (#F1F1F1) 배경 | 섹션 헤더, 필터 영역, 테이블 컬럼 헤더 |
-| Dark Panel | `gray/900` (#050505) 배경 | LNB 패널, Inverse 상태 컨테이너 |
-
----
-
-## 쉐이프 (Border Radius)
-
-| 값 | 용도 |
-|---|---|
-| 0px | 테이블, 풀-블리드 행(row) 요소 |
-| 4px | 색상 칩(Color chip), 소형 뱃지 |
-| 8px | 컬러 스와치 블록, 인풋, 버튼 (기본 라운드) |
-
-전반적으로 **8px이 기본 컴포넌트 라운드**이며, 날카로운 4px은 소형 정보 칩에만 사용한다.
-
----
-
-## 컴포넌트
-
-### LNB (좌측 내비게이션 바)
-
-무신사 로지스틱스의 핵심 내비게이션 컴포넌트. `gray/800` (#242424) 다크 배경에 아이콘 + 텍스트 조합으로 구성된다. **펼침(unfold)** 과 **접힘(fold)** 두 가지 레이아웃 모드를 지원한다.
-
----
-
-#### 컨테이너 구조
-
-| 모드 | 너비 | 비고 |
-|---|---|---|
-| Unfold (펼침) | 288px | 아이콘 + 텍스트 레이블 표시 |
-| Fold (접힘) | 88px | 아이콘만 표시. 콘텐츠 영역 56px |
+### 입고관리 (전체 펼침)
 
 ```
-background:  #242424  (gray/800)
-box-shadow:  2px 0px 4px rgba(0, 0, 0, 0.04)
-border-radius: 0px
-height:      1080px (전체 화면 높이)
+┌──────────────────────────────────────────────┐
+│  LNB (88px)  │  Content Area (1832px)         │
+│              │  padding: 24px 32px            │
+│              │  gap: 12px                     │
+│              │  ┌──────────────────────────┐  │
+│              │  │ Page Title (32px)        │  │
+│              │  ├──────────────────────────┤  │
+│              │  │ Filter Area (160px)      │  │
+│              │  ├──────────────────────────┤  │
+│              │  │ Table 1 (상단 / 552px)   │  │
+│              │  ├──────────────────────────┤  │
+│              │  │ Resize Bar (24px)        │  │
+│              │  ├──────────────────────────┤  │
+│              │  │ Table 2 (중단 / 460px)   │  │
+│              │  ├──────────────────────────┤  │
+│              │  │ Resize Bar (24px)        │  │
+│              │  ├──────────────────────────┤  │
+│              │  │ Table 3 (하단 / 460px)   │  │
+│              │  └──────────────────────────┘  │
+└──────────────────────────────────────────────┘
+```
+
+### 출고 Wave 관리
+
+```
+┌──────────────────────────────────────────────┐
+│  LNB (88px)  │  Content Area (1768px)         │
+│              │  left: 120px, top: 24px        │
+│              │  gap: 20px                     │
+│              │  ┌──────────────────────────┐  │
+│              │  │ Page Title (32px)        │  │
+│              │  ├──────────────────────────┤  │
+│              │  │ Filter Area (44px, 접힘) │  │
+│              │  ├──────────────────────────┤  │
+│              │  │ Summary (출고현황, 176px) │  │
+│              │  │  ├ 타이틀 + 기준시각     │  │
+│              │  │  ├ Filter Tag Group      │  │
+│              │  │  └ 현황 카드 Box (6종)   │  │
+│              │  ├──────────────────────────┤  │
+│              │  │ Table (상단, 654px)      │  │
+│              │  │  └ Tab Group + 리스트    │  │
+│              │  ├──────────────────────────┤  │
+│              │  │ Resize Bar (24px)        │  │
+│              │  ├──────────────────────────┤  │
+│              │  │ Table (하단, 240px)      │  │
+│              │  │  └ Tab Group             │  │
+│              │  └──────────────────────────┘  │
+└──────────────────────────────────────────────┘
 ```
 
 ---
 
-#### 상단 로고 영역 (Top_LOGO)
+## 5. 컴포넌트 스펙
+
+### 5-1. LNB (Left Navigation Bar)
 
 ```
-height:  64px
-padding: 0px 16px
-layout:  space-between (로고 좌측, 토글 아이콘 우측)
-```
-
-로고는 흰색 MWMS 로고(`#FFFFFF`)이며, 우측에 `icon/chevrons-left` (32×32px, `gray/600` #7E7E7E)로 접기/펼치기 토글이 위치한다. 접힘 상태에서는 `icon/chevrons-right`로 전환된다.
-
----
-
-#### 프로필 인풋 (input)
-
-유저명과 소속 센터를 표시하는 드롭다운 트리거.
-
-```
-width:         256px
-height:        48px
-background:    #393939  (gray/700)
-border-radius: 4px
-padding:       12px
-layout:        space-between
-```
-
-| 요소 | 스타일 |
-|---|---|
-| 유저 아이콘 + 이름 | `icon/user` (`gray/600`) + KR/Body/14-medium `#FFFFFF` |
-| 센터명 | KR/Body/14-medium `blue/300` #649CFF |
-| 드롭다운 화살표 | `icon/arrow-down-filled` (`gray/500` #929292) |
-
-활성(열림) 상태일 때: `border: 1px solid #649CFF` 추가, 화살표가 `icon/arrow-up-filled`로 전환.
-
-**프로필 드롭다운 패널:**
-
-```
-background:    #393939
-border-radius: 4px
-box-shadow:    0px 10px 15px rgba(0, 0, 0, 0.05)
-width:         256px
-```
-
-센터 목록은 각 40px 행으로 구성되며, 현재 선택된 센터는 `gray/900` (#050505) 배경 + `gray/400` (#B3B3B3) 텍스트. 로그아웃 버튼은 하단 `gray/900` 배경 40px 행에 위치하며 `icon/arrow-right-line`이 함께 표시된다.
-
----
-
-#### 메뉴 목록 (Lnb_List)
-
-```
-padding: 0px 16px
-gap:     16px
-```
-
-**1depth 메뉴 아이템 (lnb/menu):**
-
-```
-width:         256px  (fold: 56px)
-height:        56px
-padding:       16px
-gap:           8px
-border-radius: 8px
-```
-
-| 상태 | 배경 | 아이콘 | 텍스트 | 폰트 |
-|---|---|---|---|---|
-| Enabled | `#242424` (투명) | `gray/600` #7E7E7E | `gray/600` #7E7E7E | KR/Body/14-medium |
-| Focused (현재 페이지) | `gray/900` #050505 | `blue/300` #649CFF | `#FFFFFF` | KR/Body/14-bold |
-| Hover | `gray/700` #393939 | `gray/600` #7E7E7E | `gray/600` #7E7E7E | KR/Body/14-medium |
-
-> **Focused vs Active 구분:** "Focused"는 현재 열려있는 페이지의 카테고리를 의미한다. 다른 카테고리를 탐색 중일 때도 원래 페이지의 1depth 메뉴는 Focused 상태를 유지한다.
-
----
-
-#### 하위 메뉴 영역 (sub)
-
-Focused된 1depth 메뉴 하위에 2depth 서브메뉴가 펼쳐지는 영역.
-
-**서브 컨테이너:**
-
-```
-background:    #050505  (gray/900)
-border-radius: 8px
-width:         256px
-```
-
-**서브 헤더 (lnb/menu - 상단 1depth 레이블):**
-
-```
-height:        56px
-padding:       16px
-border-bottom: 1px solid #242424
-border-radius: 8px 8px 0px 0px
-background:    #050505
-```
-
-아이콘: `blue/300` / 텍스트: `#FFFFFF` KR/Body/14-bold
-
-**2depth 서브메뉴 아이템:**
-
-```
-height:   40px
-padding:  8px 16px 8px 48px   (좌측 인덴트 48px)
-layout:   space-between
-```
-
-| 상태 | 텍스트 | 아이콘(newtab) |
-|---|---|---|
-| Enabled | `gray/600` #7E7E7E / KR/Body/14-medium | `gray/800` #242424 |
-| Focused (현재 페이지) | `#FFFFFF` / KR/Body/14-bold | `gray/600` #7E7E7E |
-| Hover | `gray/400` #B3B3B3 / KR/Body/14-medium | `gray/700` #393939 |
-
-모든 2depth 메뉴 우측에는 `icon/newtab` (24×24px)이 표시되며, newtab 아이콘에 마우스 호버 시 "새탭으로 열기" 툴팁(`gray/700` 배경, 34px 높이, `border-radius: 8px`)이 노출된다.
-
----
-
-#### 하단 고정 영역 (Frame 120)
-
-스크롤과 무관하게 항상 하단에 고정되는 영역.
-
-```
-height:     88px
-padding:    16px
+width: 88px
+height: 1368px ~ 1744px (페이지별 가변)
 background: #242424
-border-top: 1px solid #393939  (gray/700)
-layout:     space-between
-```
-
-다운로드 바로가기 메뉴 아이템 (lnb/menu, 56px)이 포함되며, 아이콘은 `gray/500` #929292, 텍스트는 `gray/600` #7E7E7E.
-
----
-
-#### 스크롤바
-
-```
-width:         4px
-background:    #F7F7F7  (트랙)
-border-radius: 4px
-transform:     rotate(-90deg)
-```
-
----
-
-#### 접힘(Fold) 모드 상세
-
-접힘 상태에서는 88px 너비의 아이콘 전용 레이아웃으로 전환된다.
-
-```
-/* 아이콘 영역 */
-width:         56px
-height:        56px
-padding:       16px
-```
-
-상태 표현은 펼침과 동일하게 적용된다: Enabled = 배경 없음, Focused = `#050505` 배경 + `blue/300` 아이콘, Hover = `#393939` 배경. 텍스트 레이블은 표시되지 않는다.
-
-하단 고정 영역도 88px 너비로 축소되며, 활성 메뉴(Focused 상태)일 때는 `#050505` 배경 + `blue/300` 아이콘으로 강조된다.
-
----
-
-### 버튼
-
-버튼은 **위계(Hierarchy) × 크기(Size) × 상태(State) × 아이콘 유무**의 조합으로 구성된다. 전체 `border-radius`는 **6px** 고정이며, 텍스트 폰트는 `Noto Sans KR`을 사용한다.
-
----
-
-#### 위계 (Hierarchy)
-
-| 위계 | 사용 맥락 | 특징 |
-|---|---|---|
-| **Primary Light** | 라이트 배경 기본 주요 액션 | `gray/800` 배경, 흰 텍스트 |
-| **Primary Dark (Inverse)** | 다크 배경(로그인 등) 주요 액션 | `blue/500` 배경, 흰 텍스트. 로그인 화면에서만 사용 |
-| **Secondary** | 보조 액션, 아이콘 단독 버튼 | 흰 배경 + `gray/300` 보더, 검정 텍스트 |
-| **Tertiary** | 최하위 보조 액션 (초기화 등) | 배경 없음, `gray/600` 텍스트. hover/pressed 시 배경 나타남 |
-
----
-
-#### 크기 (Size)
-
-| 크기 | 높이 | 패딩 (상하/좌우) | 텍스트 규격 |
-|---|---|---|---|
-| 56 | 56px | `16px 32px` | KR/Headline/16-bold (Noto Sans KR, 700, 16px) |
-| 36 | 36px | `8px 24px` | KR/Body/14-medium (Noto Sans KR, 500, 14px) |
-| 28 | 28px | `4px 16px` | KR/Body/14-medium (Noto Sans KR, 500, 14px) |
-
-아이콘이 포함될 경우 아이콘 쪽 패딩이 4px 줄어든다 (icon=left: `padding-left 20px`, icon=right: `padding-right 20px`). 아이콘 크기는 `16×16px`.
-
----
-
-#### Primary Light 상태별 토큰
-
-| 상태 | 배경 | 텍스트 |
-|---|---|---|
-| Enabled | `gray/800` #242424 | `#FFFFFF` |
-| Hover | `gray/700` #393939 | `#FFFFFF` |
-| Pressed | `gray/700` #393939 | `#FFFFFF` |
-| Disabled | `gray/200` #E6E6E6 | `gray/400` #B3B3B3 |
-
-#### Primary Dark (Inverse) 상태별 토큰
-
-다크 배경(예: 로그인 화면 `gray/900` #050505) 위에서만 사용.
-
-| 상태 | 배경 | 텍스트 |
-|---|---|---|
-| Enabled | `blue/500` #245EFF | `#FFFFFF` |
-| Hover | `blue/600` #1F53E6 | `#FFFFFF` |
-| Pressed | `blue/700` #1A47CC | `#FFFFFF` |
-| Disabled | `gray/200` #E6E6E6 | `gray/400` #B3B3B3 |
-
-#### Secondary 상태별 토큰
-
-| 상태 | 배경 | 보더 | 텍스트 | 아이콘 |
-|---|---|---|---|---|
-| Enabled | `#FFFFFF` | 1px solid `gray/300` #D9D9D9 | `gray/800` #242424 | `gray/800` #242424 |
-| Hover | `gray/100` #F1F1F1 | 1px solid `gray/300` #D9D9D9 | `gray/800` #242424 | `gray/800` #242424 |
-| Pressed | `gray/200` #E6E6E6 | 1px solid `gray/300` #D9D9D9 | `gray/800` #242424 | `gray/800` #242424 |
-| Disabled | `gray/200` #E6E6E6 | 1px solid `gray/300` #D9D9D9 | `gray/400` #B3B3B3 | `gray/500` #929292 |
-
-Secondary 아이콘 전용 버튼(Icon-only)은 `36×36px` 또는 `28×28px`로 사용되며, 아이콘 컬러는 중요도에 따라 달라질 수 있다.
-
-#### Tertiary 상태별 토큰
-
-| 상태 | 배경 | 텍스트 | 아이콘 |
-|---|---|---|---|
-| Enabled | 없음 (투명) | `gray/600` #7E7E7E | `gray/600` #7E7E7E |
-| Hover | `gray/100` #F1F1F1 | `gray/600` #7E7E7E | `gray/600` #7E7E7E |
-| Pressed | `gray/200` #E6E6E6 | `gray/600` #7E7E7E | `gray/600` #7E7E7E |
-| Disabled | 없음 (투명) | `gray/400` #B3B3B3 | `gray/100` #F1F1F1 |
-
-Tertiary 버튼은 테두리가 없으며, 크기는 **28px 고정**. 주로 초기화(reset), 필터 해제 등 가벼운 보조 액션에 사용된다.
-
----
-
-### 인풋 (Input)
-
-인풋은 **크기(Size) × 상태(State) × 라벨 유무 × 우측 영역 타입 × 다크 모드 × 범위(Range) 여부**의 조합으로 구성된다. 폰트는 `Noto Sans KR`, `border-radius`는 크기에 따라 다르다.
-
----
-
-#### 크기 (Size)
-
-| 크기 | 높이 | 패딩 | Border Radius | 폰트 규격 |
-|---|---|---|---|---|
-| Large | 36px | `6px 8px` | 6px | KR/Body/14-regular (14px) |
-| Medium | 28px | `4px 8px` | 4px | KR/Body/14-regular (14px) |
-| Small | 24px | `2px 8px` | 4px | KR/Body/14-regular (14px) |
-
----
-
-#### 상태별 토큰 (Light 모드, No-Label)
-
-| 상태 | 배경 | 보더 | 텍스트 | Placeholder |
-|---|---|---|---|---|
-| Enabled | `#FFFFFF` | 1px solid `gray/300` #D9D9D9 | `gray/800` #242424 | `gray/400` #B3B3B3 |
-| Active (포커스) | `#FFFFFF` | 1px solid `blue/500` #245EFF | `gray/800` #242424 | `gray/400` #B3B3B3 |
-| Filled | `#FFFFFF` | 1px solid `gray/300` #D9D9D9 | `gray/800` #242424 | — |
-| Disabled | `gray/200` #E6E6E6 | 1px solid `gray/300` #D9D9D9 | `gray/400` #B3B3B3 | `gray/400` #B3B3B3 |
-| Read-only | `gray/200` #E6E6E6 | 1px solid `gray/300` #D9D9D9 | `gray/800` #242424 | — |
-| Error | `#FFFFFF` | 1px solid `gray/300` #D9D9D9 | `gray/800` #242424 | — |
-
-Error 상태는 인풋 보더가 변하지 않고, 인풋 하단에 에러 메시지가 별도로 노출된다.
-
-```
-/* 에러 메시지 */
-font:  KR/Body/12-medium (Noto Sans KR, 500, 12px)
-color: #F94A4A  (red/500)
-gap:   2px (인풋과의 간격)
-```
-
----
-
-#### 우측 영역 타입 (Right Area)
-
-| 타입 | 설명 | 아이콘/텍스트 색 |
-|---|---|---|
-| None | 우측 영역 없음 | — |
-| Unit | 단위 텍스트 (`cm`, `EA` 등) 우측 배치 | `gray/600` #7E7E7E (disabled: `gray/400` #B3B3B3) |
-| Icon | 16×16px 아이콘 우측 배치 | 컨텍스트에 따라 다름 |
-
----
-
-#### 라벨 (Label)
-
-라벨이 있는 경우 인풋 좌측에 **88px 고정 너비** 레이블이 위치하며, 인풋 영역이 나머지를 차지한다.
-
-```
-/* 라벨 */
-font:  KR/Body/14-medium  (14px, 500)  — Large는 16px/500
-color: #242424
-
-/* 필수 표기 (required) */
-크기:  8×8px
-color: blue/500  #245EFF  (별 모양 아이콘)
-```
-
-Large 크기 라벨은 Noto Sans KR 16px/500, Medium/Small은 14px/500.
-
----
-
-#### Dark 모드 (Inverse)
-
-LNB 프로필 인풋과 로그인 화면에서 사용되는 다크 배경 인풋.
-
-| 상태 | 배경 | 보더 | 텍스트 | Placeholder | 라벨 |
-|---|---|---|---|---|---|
-| Enabled | `gray/700` #393939 | 없음 | `#FFFFFF` | `gray/400` #B3B3B3 | `#FFFFFF` |
-| Active | `gray/700` #393939 | 1px solid `blue/500` #245EFF | `#FFFFFF` | `gray/400` #B3B3B3 | `#FFFFFF` |
-| Filled | `gray/700` #393939 | 없음 | `#FFFFFF` | — | `#FFFFFF` |
-| Disabled | `gray/700` #393939 | 없음 | `gray/600` #7E7E7E | `gray/600` #7E7E7E | `gray/600` #7E7E7E |
-| Error | `gray/700` #393939 | 없음 | `#FFFFFF` | — | `#FFFFFF` |
-
-다크 인풋의 패딩은 `12px` 고정 (높이 48px), `border-radius: 4px`.
-
----
-
-#### 날짜 범위 인풋 (Range)
-
-날짜 시작~종료를 한 인풋에 표현하는 Range 타입. 우측 아이콘은 `icon/calender` (16×16px, `gray/500` #929292 고정).
-
-```
-/* Range 인풋 내부 레이아웃 */
-YYYY-MM-DD  ~  YYYY-MM-DD  [icon/calender]
-gap:  8px (날짜 사이)
-
-/* 상태 */
-Enabled:  placeholder #B3B3B3, 보더 #D9D9D9
-Active:   텍스트 #242424, 보더 #245EFF
-Filled:   텍스트 #242424, 보더 #D9D9D9
-Disabled: 배경 #E6E6E6, 텍스트 #B3B3B3, ~ 구분자 #B3B3B3
-Read-only: 배경 #E6E6E6, 텍스트 #242424
-Error:    에러 메시지 아래 표시
-```
-
----
-
-#### PDA 인풋
-
-핸드헬드 스캐너(PDA) 화면 전용 인풋. 다크 배경 전용으로, 라벨이 상단에 위치한다.
-
-```
-/* PDA 인풋 */
-배경:          #393939
-border-radius: 4px
-height:        48px
-padding:       14px 12px
-
-/* 라벨 (상단 배치) */
-font:  KR/Body/12-regular (12px, 400)
-color: #FFFFFF
-gap:   4px (라벨~인풋)
-```
-
----
-
-#### 필드 주석
-
-Label과 Required(별 표기)는 on/off로 선택적으로 표기하거나 생략할 수 있다.
-
----
-
-### 셀렉트 박스 (Select Box)
-
-셀렉트 박스는 **크기(Size) × 상태(State) × 보더 유무(border on/off) × 라벨 유무 × 범위(Range) 여부**의 조합으로 구성된다. 우측에 항상 `icon/arrow-down-filled` (16×16px)가 위치하며, 열린 상태(Active)에서는 `icon/arrow-up-filled`로 전환된다.
-
----
-
-#### 크기 (Size)
-
-| 크기 | 높이 | 패딩 (border=on) | Border Radius | 폰트 |
-|---|---|---|---|---|
-| Large | 36px | `2px 12px` | 6px | KR/Headline/16-regular (Noto Sans KR, 400, 16px) |
-| Medium | 28px | `2px 8px` | 4px | KR/Body/14-regular (Noto Sans KR, 400, 14px) |
-| Small | 24px | `2px 8px` | 4px | KR/Body/14-regular (Noto Sans KR, 400, 14px) |
-
-border=off일 때는 패딩이 `4px 0px`으로 변경된다.
-
----
-
-#### 상태별 토큰
-
-| 상태 | 배경 | 보더 (border=on) | 텍스트 | Placeholder | 아이콘 |
-|---|---|---|---|---|---|
-| Enabled | `#FFFFFF` | 1px solid `#D9D9D9` | — | `#B3B3B3` | `#929292` |
-| Active (열린 상태) | `#FFFFFF` | 1px solid `#245EFF` | `#242424` | `#B3B3B3` | `#929292` (arrow-up) |
-| Filled | `#FFFFFF` | 1px solid `#D9D9D9` | `#242424` | — | `#929292` |
-| Disabled | `#E6E6E6` | 1px solid `#D9D9D9` | `#B3B3B3` | `#B3B3B3` | `#D9D9D9` (gray/300) |
-| Read-only | `#E6E6E6` | 1px solid `#D9D9D9` | `#242424` | — | 없음 (아이콘 미표시) |
-
-Read-only 상태는 드롭다운 아이콘이 표시되지 않으며, 패딩이 `4px 8px`로 조정된다.
-
----
-
-#### 보더 변형 (border on/off)
-
-border=on은 셀렉트 박스의 기본 형태로 외곽 보더가 있다. border=off는 보더 없이 텍스트+아이콘만 표시되는 경량형으로, 테이블 셀 내부나 필터 영역에서 사용된다.
-
-```
-/* border=off */
-padding:       4px 0px
-background:    #FFFFFF (투명에 가까운 처리)
-border:        없음
-border-radius: 4px
-```
-
----
-
-#### 라벨 (Label)
-
-인풋 컴포넌트와 동일한 규칙을 따른다. 라벨이 있는 경우 좌측 **88px 고정 너비** 레이블이 위치하며, 셀렉트 영역이 나머지를 차지한다.
-
-```
-/* 라벨 */
-font:  KR/Body/14-medium (14px, 500)  — Large는 16px/500 아님, 14px/500 동일
-color: #242424
-
-/* 필수 표기 */
-크기:  8×8px
-color: blue/500  #245EFF
-```
-
----
-
-#### 범위 셀렉트 (Range)
-
-두 개의 셀렉트 박스를 나란히 배치하는 패턴. 날짜 범위나 기간 선택 등에 사용된다.
-
-```
-/* Range 레이아웃 */
-display:         flex
-flex-direction:  row
-gap:             8px
-각 셀렉트:       동등한 너비(flex-grow: 1)로 균등 배분
-
-/* 상태 적용 방식 */
-각 셀렉트박스 독립적으로 상태 적용
-Active 시 해당 셀렉트만 #245EFF 보더 적용
-Disabled/Read-only 시 양쪽 모두 동일 상태 적용
-```
-
----
-
-#### 드롭다운 리스트 (Dropdown List)
-
-셀렉트 박스를 클릭(Active 상태)했을 때 셀렉트 박스 하단에 붙어서 열리는 목록 레이어. 셀렉트 박스 너비에 맞춰 최소 120px 이상으로 표시된다.
-
----
-
-##### 드롭다운 컨테이너
-
-```
-/* 드롭다운 패널 */
-background:    #FFFFFF
-border:        1px solid #D9D9D9
-border-radius: 4px (상단 모서리만, 트리거 셀렉트와 이어지는 경우 상단 radius 없음)
-box-shadow:    0px 10px 15px rgba(0, 0, 0, 0.05)
-min-width:     셀렉트 박스 너비에 맞춤
-
-/* 상하 여백 */
-상단 첫 아이템:  padding-top  8px (상단 프레임)
-하단 마지막 아이템: padding-bottom 8px (하단 프레임)
-아이템 행:      padding 4px 8px
-```
-
----
-
-##### 아이템 행 타입 3종
-
-**Normal (텍스트만)**
-
-```
-height:        36px
-padding:       4px 8px
-내부 아이템:   padding 4px 8px, gap 10px
-```
-
-| 상태 | 배경 | 텍스트 폰트 |
-|---|---|---|
-| Enabled | `#FFFFFF` | KR/Body/14-regular, `#242424` |
-| Hover | `#F1F1F1`, `border-radius: 4px` | KR/Body/14-regular, `#242424` |
-| Selected | `#FFFFFF` | KR/Body/14-bold (700), `#242424` |
-| Disabled | `#FFFFFF` | KR/Body/14-regular, `#B3B3B3` |
-
-**Check (체크박스 + 텍스트)**
-
-체크박스(16×16px)가 텍스트 좌측에 위치. 체크박스 상태는 체계가 별도로 있으며 드롭다운 내에서 다음 규칙을 따른다.
-
-```
-/* 체크박스 unchecked */
-background:     #FFFFFF
-border:         1px solid #B3B3B3 (gray/400)
-border-radius:  4px
-
-/* 체크박스 checked */
-background:     #242424 (gray/800)
-체크 아이콘:    #FFFFFF
-```
-
-| 상태 | 체크박스 | 배경 | 텍스트 폰트 |
-|---|---|---|---|
-| Enabled | unchecked | `#FFFFFF` | KR/Body/14-regular, `#242424` |
-| Hover | unchecked | `#F1F1F1`, radius 4px | KR/Body/14-regular, `#242424` |
-| Selected | checked (`#242424`) | `#FFFFFF` | KR/Body/14-bold, `#242424` |
-| Disabled | unchecked (`#E6E6E6` 배경) | `#FFFFFF` | KR/Body/14-regular, `#B3B3B3` |
-
-전체 선택(all) 행은 하단에 `border-bottom: 1px solid #D9D9D9` 구분선이 추가된다.
-
-**Arrow (텍스트 + 우측 꺽쇠 아이콘)**
-
-카테고리 계층 탐색용. 우측에 `icon/arrow-right-line` (16×16px, `#242424`) 배치. Disabled 시 아이콘 `#D9D9D9`.
-
-```
-/* Arrow 아이템 내부 */
-display:         flex
+display: flex
+flex-direction: column
 justify-content: space-between
-padding:         4px 8px
-gap:             4px
 ```
 
-| 상태 | 배경 | 텍스트 | 아이콘 |
-|---|---|---|---|
-| Enabled | `#FFFFFF` | KR/Body/14-regular, `#242424` | `#242424` |
-| Hover | `#F1F1F1`, radius 4px | KR/Body/14-regular, `#242424` | `#242424` |
-| Selected | `#FFFFFF` | KR/Body/14-bold, `#242424` | `#242424` |
-| Disabled | `#FFFFFF` | KR/Body/14-regular, `#B3B3B3` | `#D9D9D9` |
-
----
-
-##### 드롭다운 구조 패턴
-
-**Normal** — 단순 텍스트 목록. 셀렉트 박스 1개에서 열림.
-
-**Check box** — 다중 선택 가능한 체크박스 목록. 여러 항목 선택 시 트리거 셀렉트 박스에 쉼표(,)로 구분해 표시된다.
-
-**Category** — Arrow 타입 아이템으로 이루어진 계층 탐색 드롭다운. 좌우 두 개의 패널(각 160px)이 나란히 열리며, 왼쪽 패널에서 선택한 카테고리의 하위 목록이 오른쪽 패널에 표시된다. 카테고리 종속 관계는 꺽쇠(`>`)로 표기한다.
+#### Top Logo 영역
 
 ```
-/* 카테고리 드롭다운 2단 패널 */
-각 패널 너비:    160px
-총 너비:         320px
-패널 연결 보더:  좌측 패널 right border 없음, 우측 패널 left border 없음
-                 (1px solid #D9D9D9 공유)
-```
-
----
-
-##### 드롭다운 위치 규칙
-
-드롭다운은 트리거 셀렉트 박스에 **맞닿아** 하단에 열린다. 화면 하단 공간이 부족한 경우 상단으로 열릴 수 있으나 이 경우 별도 명세 없음.
-
-```
-/* 위치 */
-셀렉트 박스 넓이에 맞춤 (최소 120px)
-셀렉트 박스 하단에 붙음 (gap 없음)
-z-index: 드롭다운 레이어는 모달/툴팁보다 낮음
-```
-
----
-
-### 체크박스 (Checkbox)
-
-체크박스는 **크기(Size) × 상태(State) × 상태값(Check/Indeterminate/None)** 조합으로 구성된다. 체크박스 우측에 레이블 텍스트가 `gap: 8px`으로 배치된다.
-
----
-
-#### 크기 (Size)
-
-| 크기 | 박스 크기 | Border Radius |
-|---|---|---|
-| Medium | 24×24px | 4px |
-| Small | 16×16px | 2px |
-
----
-
-#### 상태값 × 상태 토큰
-
-**None-check (미선택)**
-
-| 상태 | 배경 | 보더 | 아이콘 |
-|---|---|---|---|
-| Default | `#FFFFFF` | 1px solid `#B3B3B3` | — |
-| Disabled | `#E6E6E6` | 1px solid `#B3B3B3` | — |
-
-**Check (선택됨)**
-
-| 상태 | 배경 | 보더 | 아이콘 색 |
-|---|---|---|---|
-| Default | `#393939` (gray/700) | 없음 | `#FFFFFF` |
-| Disabled | `#E6E6E6` | 1px solid `#B3B3B3` | `#7E7E7E` (gray/600) |
-
-**Indeterminate (중간 상태)**
-
-부분 선택을 나타내는 상태. 아이콘은 `icon/minus`(가로 바)로 표시된다.
-
-| 상태 | 배경 | 보더 | 아이콘 색 |
-|---|---|---|---|
-| Default | `#393939` | 없음 | `#FFFFFF` |
-| Disabled | `#E6E6E6` | 1px solid `#B3B3B3` | `#7E7E7E` |
-
----
-
-#### 체크 아이템 (Check Item)
-
-체크박스와 텍스트 레이블을 묶은 단위 컴포넌트.
-
-```
-/* check item */
-display:        flex
-flex-direction: row
-align-items:    center
-gap:            8px
-
-/* 텍스트 레이블 */
-font:           KR/Body/14-regular (Noto Sans KR, 400, 14px)
-color:          #242424  (Default)
-color:          #B3B3B3  (Disabled)
-```
-
----
-
-#### 옵션 그룹 (Option Group) — 체크박스 포함
-
-라벨과 체크 아이템들을 묶는 폼 필드 단위. 인풋/셀렉트와 동일하게 **라벨 88px 고정 + 옵션 영역**으로 구성된다.
-
-```
-/* 옵션 그룹 */
-display:        flex
-flex-direction: row
-align-items:    center
-gap:            16px    (라벨 ↔ 첫 옵션)
-
-/* 옵션 간 간격 */
-gap:            32px    (옵션 아이템 사이)
-
-/* 라벨 */
-font:           KR/Body/14-medium (14px, 500), #242424
-required:       blue/500 #245EFF 별 아이콘 (8×8px)
-```
-
-옵션 갯수는 1개 · 2개 · 3개로 구성 가능하다.
-
----
-
-### 라디오 버튼 (Radio Button)
-
-라디오 버튼은 **단일 선택** 시 사용하며, 기본값으로 하나의 옵션이 항상 선택되어 있어야 한다.
-
----
-
-#### 크기 및 토큰
-
-라디오 버튼은 Medium(24×24px) 단일 크기. 원형(Ellipse) 외곽선과 내부 도트로 상태를 표현한다.
-
-**None-check (미선택)**
-
-| 상태 | 외곽선 색 | 내부 도트 | 배경 |
-|---|---|---|---|
-| Default | `#B3B3B3` | — | `#FFFFFF` |
-| Disabled | `#B3B3B3` | — | `#E6E6E6` |
-
-**Check (선택됨)**
-
-| 상태 | 외곽선 색 | 내부 도트 색 | 배경 |
-|---|---|---|---|
-| Default | `#245EFF` (blue/500) | `#245EFF` | `#FFFFFF` |
-| Disabled | `#B3B3B3` | `#7E7E7E` | `#E6E6E6` |
-
-```
-/* 내부 도트 위치 */
-left:   29.17%
-right:  29.17%
-top:    29.17%
-bottom: 29.17%
-/* 즉 전체 크기의 약 42% 크기 중앙 배치 */
-```
-
----
-
-#### 라디오 아이템 (Radio Item)
-
-```
-/* radio item */
-display:        flex
-flex-direction: row
-align-items:    center
-gap:            8px
-
-/* 텍스트 레이블 */
-font:           KR/Body/14-regular (14px, 400)
-color:          #242424  (Default)
-color:          #B3B3B3  (Disabled)
-```
-
----
-
-#### 옵션 그룹 (Option Group) — 라디오 포함
-
-체크박스 옵션 그룹과 동일한 구조. 라벨 88px 고정 + 라디오 옵션들 `gap: 32px` 배치. 단일 선택이므로 선택 해제 불가.
-
----
-
-### 팝업 / 다이얼로그 (Popup / Dialogue)
-
-팝업과 다이얼로그는 용도에 따라 두 가지 타입으로 나뉜다. **다이얼로그(Dialogue)**는 알림·경고처럼 단순 확인이 필요한 상황에, **팝업(Popup)**은 이미지·셀렉박스 등 추가 조작이 필요한 콘텐츠에 사용한다.
-
----
-
-#### 공통 스타일
-
-```
-background:    #FFFFFF
+width: 88px
+height: 64px
+padding: 0px 24px
+gap: 16px
 border-radius: 16px
-box-shadow:    0px 4px 32px rgba(0, 0, 0, 0.03)
+아이콘: 32×32px  (icon/chevrons-right)
+아이콘 색상: #7E7E7E
+```
+
+#### LNB 메뉴 목록
+
+```
+position: absolute
+left: 16px, top: 64px
+width: 56px
+height: 568px
+gap: 16px
+```
+
+**상단 유저 영역 (확장 상태)**
+
+```
+width: 56px, height: 48px
+background: #393939
+border-radius: 4px
+padding: 12px 16px
+gap: 60px (출고) / gap: 4px (입고)
+
+[축소 상태] 아이콘(user): 24×24px, color: #7E7E7E
+[확장 상태] 센터명 텍스트: KR/Body/14-medium, color: #245EFF (예: "신여주1")
+            아이콘(user): 24×24px, color: #929292
+```
+
+**lnb/menu 기본 상태**
+
+```
+width: 56px, height: 56px
+padding: 16px
+gap: 10px
+아이콘: 24×24px, color: #7E7E7E
+```
+
+**lnb/menu 활성 상태 (현재 페이지)**
+
+```
+background: #050505
+border-radius: 8px
+
+입고 페이지: 아이콘(inbound), color: #649CFF
+출고 페이지: 아이콘(outbound), color: #649CFF
+```
+
+#### LNB 하단 다운로드 버튼 영역
+
+```
+width: 88px, height: 88px
+padding: 16px
+background: #242424
+border-top: 1px solid #393939
+아이콘(download): 24×24px, color: #929292
 ```
 
 ---
 
-#### 다이얼로그 (Dialogue)
-
-텍스트 중심의 단순 확인/취소 패턴. 헤더·푸터 구분선이 없고 단일 padding 블록 안에 제목 + 서브텍스트 + 버튼이 수직 배치된다.
+### 5-2. Page Title
 
 ```
-/* dialogue 컨테이너 */
-display:        flex
-flex-direction: column
-align-items:    center
-padding:        32px
-gap:            24px
-width:          480px     (고정)
-
-/* ① 텍스트 블록 */
-gap:            8px
-
-/* 제목 */
-font:           KR/Headline/20-bold (Noto Sans KR, 700, 20px, line-height 32px)
-color:          #242424
-text-align:     center
-
-/* 서브텍스트 (옵셔널 — display:none 처리 가능) */
-font:           KR/Body/14-regular (14px, 400)
-color:          #7E7E7E
-text-align:     center
-
-/* ② 버튼 행 */
-display:        flex
+width: 1767px, height: 32px
+display: flex
 flex-direction: row
+justify-content: space-between
+align-items: flex-end
+```
+
+**좌측 — 제목 + 센터 배지**
+
+```
+gap: 16px
+
+제목 텍스트: KR/Headline/20-bold, color: #242424
+  └ 예시: "재고조회"
+
+구분선(divider): 2px × 16px, background: #D9D9D9
+
+센터 아이콘: 16×16px icon/pin, color: #7E7E7E
+센터 텍스트: KR/Body/14-medium, color: #7E7E7E
+  └ 예시: "센터"
+
+센터 배지:
+  background: #B8D4FF
+  border-radius: 6px
+  padding: 4px 8px
+  gap: 2px
+  텍스트: KR/Body/14-bold, color: #242424
+    └ 예시: "여주1센터"
+  아이콘(arrow-down-filled): 24×24px, polygon color: #242424
+```
+
+**우측 — 브레드크럼**
+
+```
+gap: 12px
+아이콘(home-small): 24×24px, color: #929292
+텍스트 "Home": KR/Body/14-regular, color: #7E7E7E
+구분선: 1px × 8px, background: #D9D9D9
+1 depth: KR/Body/14-regular, color: #7E7E7E
+구분선
+2 depth: KR/Body/14-medium, color: #242424  ← 현재 위치 강조
+```
+
+---
+
+### 5-3. Filter Area
+
+**접힘 상태 (출고 Wave 기본값)**
+
+```
+width: 1768px
+height: 44px
+background: #F1F1F1
+border-radius: 8px
+padding: 8px 0px
+display: flex
 justify-content: center
-gap:            8px
+align-items: center
+
+[검색 필터 열기] 버튼:
+  아이콘(chevrons-down): 24×24px, color: #7E7E7E
+  텍스트: KR/Body/14-bold, color: #7E7E7E, "검색 필터 열기"
 ```
 
-버튼 스펙 (다이얼로그 전용 크기):
-
-| 버튼 | 배경 | 보더 | 텍스트 색 | 크기 |
-|---|---|---|---|---|
-| Secondary (취소) | `#FFFFFF` | 1px solid `#D9D9D9` | `#242424` | 74×36px, radius 6px |
-| Primary (확인) | `#242424` | 없음 | `#FFFFFF` | 74×36px, radius 6px |
-
-버튼 텍스트: KR/Body/14-medium (14px, 500).
-
----
-
-#### 팝업 (Popup)
-
-헤더 / 콘텐츠 / 푸터 3단 구조. 헤더와 푸터에 각각 구분선이 붙는다.
+**펼침 상태 (입고관리 기본값)**
 
 ```
-/* 팝업 컨테이너 */
-display:        flex
+width: 1768px
+height: 160px
+background: #F1F1F1
+border-radius: 8px
+display: flex
 flex-direction: column
-align-items:    flex-start
-padding:        0px
-filter:         drop-shadow(0px 4px 32px rgba(0,0,0,0.03))
 ```
 
-**헤더 (Frame 544)**
+#### 필터 행 구조 (Sec_01)
 
 ```
-display:        flex
+padding: 12px 0px
+gap: 6px
+3개 행(row) 포함, 각 행: padding 0px 20px, gap 40px
+각 행: 3개 input 컴포넌트, flex-grow:1로 균등 분할 (≈549px each)
+```
+
+#### 필터 입력 컴포넌트 (input)
+
+```
+display: flex
 flex-direction: row
-justify-content: space-between
-align-items:    center
-padding:        16px 32px
-height:         64px
-border-bottom:  1px solid #D9D9D9
-border-radius:  16px 16px 0px 0px   ← 상단 모서리만
+align-items: center
+gap: 16px
 
-/* 제목 */
-font:           KR/Headline/20-bold (700, 20px, line-height 32px)
-color:          #242424
+라벨 영역:
+  width: 88px, height: 20px
+  font: KR/Body/14-medium, color: #242424
 
-/* 닫기 아이콘 */
-크기:           24×24px
-아이콘:         icon/close
-색:             #242424 (gray/800)
+입력 필드:
+  background: #FFFFFF
+  border: 1px solid #D9D9D9
+  border-radius: 4px
+  padding: 2px 8px
+  height: 24px
+  flex-grow: 1
 ```
 
-**콘텐츠 영역**
+**날짜 범위 입력 (Date Range)**
 
 ```
-padding:        24px 32px
-height:         flexible (기본 68px, 1080 너비는 84px)
-font:           KR/Body/14-regular (14px, 400)
-color:          #7E7E7E
+플레이스홀더: "YYYY-MM-DD ~ YYYY-MM-DD"
+  font: KR/Body/14-regular, color: #B3B3B3
+캘린더 아이콘: 16×16px, color: #929292
 ```
 
-**푸터 (Frame 545)**
+**텍스트 입력 (Search)**
 
 ```
-display:        flex
-flex-direction: row
-justify-content: flex-end
-padding:        20px 32px 32px
-gap:            8px
-height:         88px
-border-top:     1px solid #D9D9D9
-border-radius:  0px 0px 16px 16px   ← 하단 모서리만
-
-/* 버튼 스펙은 다이얼로그와 동일 */
-Secondary: #FFFFFF + 1px solid #D9D9D9 / Primary: #242424
-각 74×36px, border-radius 6px
+플레이스홀더: KR/Body/14-regular, color: #B3B3B3
+플러스 아이콘: 16×16px, color: #929292
 ```
 
----
-
-#### 너비 규격
-
-| 타입 | 너비 | 용도 |
-|---|---|---|
-| Dialogue | 480px (고정) | 단순 알림·확인 |
-| Popup 480 | 480px | 소형 폼·간단 콘텐츠 |
-| Popup 640 | 640px | 중형 콘텐츠 |
-| Popup 720 | 720px | 중대형 콘텐츠 |
-| Popup 1080 | 1080px | 대형 폼·테이블 포함 |
-
-팝업 높이는 Flexible. **최대 높이는 디스플레이(Footer 제외) 80%** 로 제한되며, 이를 초과하는 경우 콘텐츠 영역 내에 스크롤이 발생한다. 헤더(64px)와 푸터(88px)는 항상 고정(Fix)된다.
-
----
-
-#### 내부 여백 상세 (너비 480 기준)
+**드롭다운 셀렉트**
 
 ```
-/* 팝업 상하 여백 */
-헤더 상하:         16px (padding: 16px 32px)
-콘텐츠 상하:       24px (padding: 24px 32px)
-푸터 상:           20px / 하: 32px
-
-/* 좌우 패딩 */
-전 영역 공통:      32px
-
-/* 콘텐츠 내부 너비 (480 기준) */
-416px = 480 - 32*2
-
-/* 콘텐츠 내부 너비 (640 기준) */
-576px = 640 - 32*2
-
-/* 콘텐츠 내부 너비 (720 기준) */
-656px = 720 - 32*2
-
-/* 콘텐츠 내부 너비 (1080 기준) */
-1016px = 1080 - 32*2
+arrow-down-filled: 16×16px, polygon color: #929292
+텍스트: KR/Body/14-regular, color: #B3B3B3 (미선택) / #242424 (선택됨)
 ```
 
----
-
-### 토스트 메시지 (Toast Message)
-
-사용자가 수행한 작업의 성공·실패 또는 상태 변경에 대한 결과를 즉각적으로 피드백할 때 사용한다. 화면 위에 일시적으로 떠오르는 인라인 알림 레이어.
-
----
-
-#### 공통 스펙
+**복합 드롭다운 (화주 — 타입+이름)**
 
 ```
-/* 토스트 컨테이너 */
-display:         flex
-flex-direction:  row
-justify-content: space-between
-align-items:     center   (1줄) / flex-start (2줄)
-padding:         12px 16px
-gap:             4px
-width:           360px
-border-radius:   8px
-box-shadow:      0px 10px 15px rgba(0, 0, 0, 0.05)
-
-/* 내부 레이아웃 */
-좌측: 아이콘(24×24px) + 텍스트, gap 4px
-우측: 닫기 아이콘(icon/close, 16×16px, #FFFFFF)
+타입 셀렉트: width 126px
+이름 셀렉트: flex-grow:1 (≈315px)
 ```
 
-텍스트: KR/Body/14-medium (Noto Sans KR, 500, 14px, line-height 20px), `color: #FFFFFF`.
-
----
-
-#### 타입 2종
-
-**Success**
+**별 마크 아이콘 (화주 라벨 앞)**
 
 ```
-background:   #245EFF  (blue/500)
-아이콘:       icon/check-oval (24×24px, #FFFFFF)
+width: 8px, height: ~8px
+색상: #FFC700 (별), #000000 (선)
 ```
 
-**Error**
+**"내 작업만 보기" 체크박스 (출고 Wave 전용)**
 
 ```
-background:   #F94A4A  (red/500)
-아이콘:       icon/alert-oval (24×24px, #FFFFFF)
+gap: 8px
+checkbox: 24×24px (출고용 대형)
+  border: 1px solid #D9D9D9
+  border-radius: 4px
+  background: #FFFFFF
+label: KR/Body/14-medium, color: #242424
 ```
 
----
-
-#### 줄 수에 따른 높이
-
-| 줄 수 | 높이 | align-items |
-|---|---|---|
-| 1줄 | 48px | center |
-| 2줄 | 66px (success) / 64px (error) | flex-start |
-
-2줄일 때 닫기 아이콘 컨테이너는 `padding-top: 4px`으로 상단 정렬.
-
----
-
-#### 아이콘 상세
+#### 필터 액션 버튼 영역
 
 ```
-/* icon/check-oval (success) */
-크기:    24×24px
-내부:    Subtract(체크 모양), 12.5% inset, #FFFFFF
-
-/* icon/alert-oval (error) */
-크기:    24×24px
-내부:    Vector(느낌표 모양), 12.5% inset, #FFFFFF
-
-/* icon/close (닫기) */
-크기:    16×16px
-내부:    Union(X 모양), 16.67% inset, #FFFFFF
+width: 1768px, height: 36px
+display: flex
+justify-content: flex-end (버튼은 우측 정렬)
 ```
 
----
-
-### 테이블
-
-무신사 로지스틱스의 핵심 데이터 컴포넌트. 컬럼 헤더 · 셀 · 보더 토큰이 독립적으로 설계되어 있으며, 상태 기반 행(Row) 강조와 다양한 셀 타입을 지원한다.
-
-#### 테이블 컨테이너
+**검색 필터 닫기 버튼 (중앙)**
 
 ```
-border:        1px solid #E6E6E6  (color.border.table)
-border-radius: 8px
-box-shadow:    0px 10px 15px rgba(0, 0, 0, 0.05)
-background:    #FFFFFF
+padding: 8px 16px
+gap: 4px
+아이콘(chevrons-up): 18×18px, color: #7E7E7E
+텍스트: KR/Body/12-medium, color: #7E7E7E, "검색 필터 닫기"
 ```
 
----
-
-#### 컬러 토큰 요약
-
-| 요소 | 토큰 | 값 |
-|---|---|---|
-| 컬럼 헤더 배경 | `color.bg.table.column` | `gray/100` #F1F1F1 |
-| 선택된 컬럼 배경 | `color.bg.table.column-selected` | `gray/200` #E6E6E6 |
-| 컬럼 그룹명 배경 | `color.bg.table.column-group` | `gray/300` #D9D9D9 |
-| 컬럼 헤더 텍스트 | `color.text.table.column` | `gray/600` #7E7E7E |
-| 편집 가능 컬럼 헤더 텍스트 | — | `gray/800` #242424 |
-| 셀 텍스트 | `color.text.table.cell` | `gray/800` #242424 |
-| 카운트 텍스트 | `color.text.table.count` | `blue/500` #245EFF |
-| 테이블 외곽 보더 | `color.border.table` | `gray/200` #E6E6E6 |
-| 셀 구분 보더 | `color.border.divider` | `gray/300` #D9D9D9 |
-
----
-
-#### 컬럼 헤더 (Column Header)
+**초기화 버튼**
 
 ```
-height:        34px
-background:    #F1F1F1
-border-bottom: 1px solid #E6E6E6
-font:          KR/Body/12-medium  (Noto Sans KR, 500, 12px)
-color:         #7E7E7E  →  편집 가능 컬럼은 #242424
-```
-
-정렬 아이콘, 리사이즈 핸들이 선택적으로 포함되며, 컬럼이 선택(sort active)된 경우 배경이 `gray/200`(#E6E6E6)으로 변경된다.
-
----
-
-#### 행(Row) 상태
-
-행 높이는 **26px**. 상태 전환은 배경색 변화만으로 표현한다.
-
-| 상태 | 배경 | 비고 |
-|---|---|---|
-| Default | `#FFFFFF` (흰색) | 기본 데이터 행 |
-| Hover | `#E6E6E6` (`gray/200`) | 마우스 오버 |
-| Selected (단일 선택) | `#E9EFFF` (`rgba(36,94,255,0.1)`) | 클릭 선택된 행 |
-| Checked (체크박스 선택) | `#8EB8FF` (`blue/200`) | 체크된 행 |
-| Add (추가 행) | `#B8D4FF` (`blue/100`) | 행 추가 입력 상태 |
-
----
-
-#### 셀 타입 (Cell Types)
-
-| 타입 | 설명 | 주요 스타일 |
-|---|---|---|
-| **Default** | 읽기 전용 텍스트 | KR/Body/12-regular, `#242424` |
-| **Edit** | 인라인 편집 가능 셀 | 포커스 시 `border: 1px solid #245EFF`, 드롭다운 아이콘 표시 |
-| **Link** | 클릭 가능한 링크 셀 | `color: #1F53E6`, `text-decoration: underline` |
-| **Check** | 체크박스 내장 셀 | 체크 시 행 전체 `#8EB8FF` 적용 |
-| **State** | 상태 도트 + 레이블 | 컬러 도트(4px 원) + 상태 텍스트 조합 |
-| **Button** | 인라인 버튼 | 셀 내부 소형 버튼, height 24px, border-radius 4px |
-
----
-
-#### 탭 (Tab)
-
-테이블 상단 또는 필터 영역 상단에 위치하는 탭 컴포넌트.
-
-| 상태 | 하단 보더 | 폰트 굵기 | 텍스트 컬러 |
-|---|---|---|---|
-| Active | `2px solid #245EFF` | 700 (Bold) | `#242424` |
-| Enabled (비활성) | 없음 | 400 (Regular) | `#929292` |
-| Hover | 없음 | 400 | `#242424` |
-| Disabled | 없음 | 400 | `#B3B3B3` |
-
-탭 텍스트 우측에 카운트 배지가 포함될 수 있으며, 카운트 폰트는 Noto Sans Mono 사용.
-
----
-
-#### 카운트 / 다운로드 바 (Count Bar)
-
-테이블 상단 우측에 위치하는 선택 수 · 로딩 수 · 전체 수 표시 영역.
-
-```
-font:    Noto Sans Mono, bold, 12px
-선택 수: #245EFF (blue/500)
-로딩 수: #7E7E7E (gray/600)
-전체 수: #7E7E7E (gray/600)
-구분선:  1px solid #D9D9D9
-```
-
----
-
-#### 리사이즈 바 (Resizing Bar)
-
-컬럼 너비 조절 핸들.
-
-```
-배경:          #F1F1F1
-핸들:          background: #245EFF, border-radius: 4px
-너비:          4px (트랙) / 2px (핸들 활성)
-호버 시:       핸들 opacity 1, 트랙 background #E6E6E6
-```
-
----
-
-#### 빈 상태 (Empty State)
-
-조회 결과 없음 상태.
-
-```
-아이콘:    검색 아이콘, color: #929292, size: 24px
-제목:      "조회결과 없음"  KR/Body/14-medium, #7E7E7E
-서브텍스트: "검색 조건을 변경해 주세요"  KR/Body/12-regular, #B3B3B3
-정렬:      수직·수평 가운데 정렬
-```
-
----
-
-#### 하단 버튼 바 (Btn_Bottom)
-
-테이블 하단 액션 영역에 배치되는 버튼 그룹.
-
-```
-height:        36px
-padding:       8px 24px
-border-radius: 6px
-```
-
-| 변형 | 배경 | 텍스트 | 보더 |
-|---|---|---|---|
-| 비활성 (Disabled) | `#E6E6E6` | `#B3B3B3` | 없음 |
-| 활성 Secondary | `#FFFFFF` | `#242424` | `1px solid #E6E6E6` |
-| 활성 Primary | `#242424` | `#FFFFFF` | 없음 |
-
----
-
-#### 인라인 편집 저장 팝업
-
-셀 인라인 편집 완료 후 나타나는 확인 팝업.
-
-```
-background:    rgba(36, 36, 36, 0.7)
-border-radius: 8px
-padding:       8px 12px
-버튼: 취소 (Secondary Inverse) / 저장 (Primary Inverse)
-```
-
----
-
-#### 툴팁 (Tooltip/Row)
-
-행 또는 셀 위에 표시되는 인라인 툴팁.
-
-```
-background:    rgba(36, 36, 36, 0.7)
-border-radius: 8px
-padding:       8px 12px
-font:          KR/Body/12-medium, #FFFFFF
-```
-
----
-
-#### 스크롤바
-
-```
-트랙 배경:   #FAFAFA
-트랙 보더:   1px solid #F1F1F1
-썸(thumb): background: #D9D9D9, border-radius: 4px
-너비:        6px
-```
-
----
-
-#### 필터 영역 (Filter Area)
-
-테이블 위 검색·필터 컨트롤 영역.
-
-```
-background:    #F1F1F1
-border-radius: 8px
-padding:       12px 16px
-```
-
-내부 인풋 스타일:
-
-```
-height:     24px
+width: 120px, height: 36px
 background: #FFFFFF
-border:     1px solid #E6E6E6
-font:       KR/Body/14-medium
-label:      KR/Body/14-medium, #242424
+border: 1px solid #D9D9D9
+border-radius: 6px
+padding: 8px 24px
+label: KR/Body/14-medium, color: #242424, "초기화"
+```
+
+**검색 버튼**
+
+```
+width: 120px, height: 36px
+background: #242424
+border-radius: 6px
+padding: 8px 24px
+label: KR/Body/14-medium, color: #FFFFFF, "검색"
 ```
 
 ---
 
-#### 페이지 타이틀 영역
+### 5-4. 테이블 컴포넌트
 
-테이블 상단 페이지 헤더 구조.
+#### 전체 컨테이너
 
 ```
-제목:         KR/Headline/20-bold, #242424
-브레드크럼:    KR/Body/14-regular, #7E7E7E
-센터 선택 항목: background: #B8D4FF (blue/100)
+width: 1768px
+background: #FFFFFF
+border: 1px solid #E6E6E6
+border-radius: 8px 8px 0px 0px  (상단) | 0px (중단) | 0px 0px 8px 8px (하단)
+filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.05))
+```
+
+#### Tab Group (출고 Wave 신규)
+
+```
+width: 1766px, height: 40px (상단 테이블) / 48px (하단 테이블)
+padding: 0px 16px
+background: #FFFFFF
+border-bottom: 1px solid #E6E6E6
+
+탭 요소 (활성):
+  padding: 8px 12px
+  border-bottom: 2px solid #245EFF
+  텍스트: KR/Headline/16-bold, color: #242424
+
+탭 요소 (비활성):
+  padding: 8px 12px
+  border-bottom: none
+  텍스트: KR/Headline/16-regular, color: #929292
+```
+
+#### List Head (테이블 상단 툴바)
+
+```
+height: 44px
+padding: 0px 16px
+display: flex
+flex-direction: row
+justify-content: space-between (입고) / flex-start with gap:20px (출고)
+align-items: center
+background: #FFFFFF
+```
+
+**카운트 배지**
+
+```
+gap: 12px
+선택 수: EN/Body/12-bold, color: #245EFF
+구분선: 1px × 8px, #D9D9D9
+전체 수: EN/Body/12-bold, color: #929292
+구분선
+페이지 수: EN/Body/12-bold, color: #929292
+```
+
+**"내 작업만 보기" 체크박스 (출고 리스트헤드)**
+
+```
+gap: 8px
+checkbox: 16×16px
+  border: 1px solid #B3B3B3
+  border-radius: 2px
+  background: #FFFFFF
+label: KR/Body/14-regular, color: #7E7E7E
+```
+
+**버튼 그룹 (우측)**
+
+```
+gap: 8px ~ 12px
+
+[엑셀 다운로드]
+  width: 131px, height: 28px
+  border: 1px solid #D9D9D9
+  border-radius: 6px
+  아이콘(download): 16×16px, color: #242424
+  label: KR/Body/14-medium, color: #242424
+
+[Wave 생성 등 CTA]
+  width: 120px, height: 28px
+  background: #242424
+  border-radius: 6px
+  label: KR/Body/14-medium, color: #FFFFFF
+```
+
+#### Table Header (T_Head)
+
+```
+height: 34px
+background: #F1F1F1
+border-bottom: 1px solid #F1F1F1 (입고) / border: 1px solid #F1F1F1 (출고)
+```
+
+**체크박스 셀**
+
+```
+width: 32px
+padding: 8px
+checkbox: 16×16px
+  border: #B3B3B3, border-radius: 2px (출고) / 4px (입고)
+  background: #FFFFFF
+```
+
+**컬럼 셀**
+
+```
+height: 34px
+padding: 8px
+background: #F1F1F1
+border-bottom: 1px solid #E6E6E6
+
+셀간 divider:
+  일반: 1px × 16px, background: #D9D9D9
+  섹션 구분 강조: 1px × 34px (full-height), background: #929292
+
+타이틀 텍스트: KR/Body/12-medium
+  일반: color: #929292
+  강조(✎ 표시 컬럼): color: #242424
+```
+
+**출고 Wave 테이블 컬럼 너비 목록**
+
+| 순서 | 너비 | 비고 |
+|---|---|---|
+| checkbox | 32px | — |
+| col 1–2 | 140px × 2 | Wave번호, Wave명 |
+| 상태 셀 | 92px | statusTag |
+| col 4–5 | 140px, 104px | — |
+| 수량 셀 | 62px | 숫자, right-align |
+| progress×3 | 200px × 3 | 피킹/단포/패킹 진행바 |
+| col 10 | 160px | — |
+| col 11 | 112px | — |
+| col 12 | 62px | — |
+| col 13 | 120px | — |
+| col 14–15 | 120px × 2 | — |
+| col 16 | 102px | — |
+
+**하단 테이블 (집계) 컬럼 너비 목록**
+
+| 순서 | 너비 | 비고 |
+|---|---|---|
+| checkbox | 32px | — |
+| col 1~19 | 90.37px × 19 | 균등 분할 (flex-grow:1) |
+
+#### Table Row (데이터 행)
+
+```
+[입고 기본]
+height: 26px
+border-bottom: 1px solid #F1F1F1
+gap: 1px
+
+[출고 Wave]
+height: 40px
+border-bottom: 1px solid #F1F1F1
+gap: 1px
+
+셀 기본:
+  padding: 4px 8px
+  background: #FFFFFF
+  border-bottom: 1px solid #E6E6E6
+  font: EN/Body/12-regular (숫자) / KR/Body/12-regular (한글)
+  color: #242424
+
+선택된 행(Highlighted, 출고):
+  background: #B8D4FF (행 전체)
+  셀 border-bottom: 1px solid #E6E6E6
+
+비활성(disabled) 셀:
+  background: #D9D9D9
+  color: #7E7E7E
+
+숫자 셀: text-align: right
+```
+
+#### Progress Bar 셀 (출고 Wave 신규)
+
+```
+width: 200px, height: 40px (행 높이에 맞춤)
+position: relative
+
+진행 fill (Rectangle 402):
+  position: absolute
+  left: 0, bottom: 1px
+  height: 38px
+  background: rgba(36,94,255,0.15)
+  border-radius: 2px 8px 8px 2px
+
+[선택된 행의 fill]:
+  background: #649CFF (solid, 불투명)
+
+우측 텍스트 그룹 (position: absolute, right: 8px):
+  분수: EN/Body/12-regular, color: #7E7E7E  예: "(42/84)"
+  퍼센트: EN/Body/12-bold, color: #242424  예: "50%"
+
+좌측 공정명 (position: absolute, left: 8px):
+  KR/Body/12-regular, color: #242424  예: "피킹", "소팅", "패킹"
+
+비활성 track (단포 미시작):
+  background: #E6E6E6
+  텍스트 color: #B3B3B3
+```
+
+#### Scroll Bar
+
+**수평 스크롤바**
+
+```
+width: 1766px, height: 24px
+background: #FAFAFA
+border-top: 1px solid #F1F1F1
+
+트랙: width 872px, height 8px, background: #D9D9D9, border-radius: 4px
+화살표 버튼: 24×24px, polygon(#242424)
+끝 사각형: 24×24px, background: #D9D9D9
+```
+
+**수직 스크롤바 (세로, rotate 90deg)**
+
+```
+width: 240px (회전 전), height: 24px
+background: #FAFAFA
+border-bottom: 1px solid #F1F1F1
+트랙: width 59px, height 8px, background: #D9D9D9, border-radius: 4px
+```
+
+**테이블 내부 고정 수직 divider**
+
+```
+position: absolute
+width: 1px, height: 314px
+left: 718px
+background: #B3B3B3
+```
+
+#### Bottom Action Bar (btn_Bottom)
+
+```
+height: 52px
+padding: 8px 16px
+background: #FFFFFF
+border-top: 1px solid #F1F1F1
+display: flex
+justify-content: flex-end
+```
+
+**상태 텍스트**
+
+```
+KR/Body/14-medium, color: #929292
+예시: "체크한 행 0개를"
+```
+
+**활성 버튼**
+
+```
+height: 36px
+padding: 8px 24px
+border: 1px solid #D9D9D9
+border-radius: 6px
+background: #FFFFFF
+label: KR/Body/14-medium, color: #242424
+```
+
+**비활성 버튼 (Disabled 상태)**
+
+```
+background: #E6E6E6
+border: 1px solid #D9D9D9
+border-radius: 6px
+label: KR/Body/14-medium, color: #B3B3B3
 ```
 
 ---
 
-## Do's and Don'ts
+### 5-5. Resize Bar (테이블 간 구분 핸들)
 
-### Do
-- `blue/500` (#245EFF)는 **Primary Inverse 버튼, 활성 보더, 성공/하이라이트/링크 텍스트**에만 사용한다.
-- LNB 다크 패널(`gray/900`) 위에서는 반드시 **Inverse 토큰**(`-inverse` 접미사)을 사용한다.
-- 테이블 컬럼 헤더에는 `color.bg.table.column`(`gray/100`)을 적용하여 셀 영역과 시각적으로 구분한다.
-- 숫자 데이터(송장번호, 수량, 코드 등)는 **Noto Sans Mono**를 사용하여 자릿수 정렬을 보장한다.
-- 상태 전환(hover → pressed)은 **배경 명도 변화**로만 표현하며, 그림자나 크기 변화를 추가하지 않는다.
-- 보더는 항상 `1px solid`로 통일하며 `gray/100`(#F1F1F1) 또는 `gray/200`(#E6E6E6) 중 맥락에 맞게 선택한다.
+```
+width: 1768px, height: 24px
+background: #F1F1F1
+display: flex
+align-items: center
+justify-content: center
+padding: 4px 10px
 
-### Don't
-- `blue/500`을 라이트 배경의 Primary 버튼 기본 배경으로 사용하지 않는다. 라이트 배경 Primary 버튼 기본값은 `gray/800`이다.
-- `gray/700`(#393939)의 의미를 텍스트 컬러와 배경 컬러 두 용도로 혼동하지 않는다. 텍스트에서는 기본 잉크 컬러, 배경에서는 LNB hover 및 Inverse 인풋 배경이다.
-- 그림자(box-shadow)를 UI 위계 표현에 사용하지 않는다. 모든 뎁스는 보더와 배경 변화로 표현한다.
-- `red/500`(#F94A4A)을 에러 이외의 목적(장식, 강조)으로 사용하지 않는다.
-- 한글 본문 폰트(Noto Sans KR)를 숫자/코드 데이터에 사용하지 않는다. 숫자는 반드시 Noto Sans Mono를 사용한다.
-- 폰트 굵기를 600으로 설정하지 않는다. 본문 시스템의 굵기 사다리는 400 / 500 / 700이다. (600은 Pretendard UI 레이블 전용)
+핸들 버튼:
+  width: 56px, height: 16px
+  background: #245EFF
+  border-radius: 4px
+  padding: 0px 4px
+  아이콘(drag-h): 16×16px, color: #FFFFFF
+```
 
 ---
 
-## 아이콘 시스템
+### 5-6. 섹션 헤더 (Section Header)
 
-모든 아이콘은 `24×24px` 고정 크기이며, 썸네일 배경은 `#F9F9F9` (border-radius 8px). 아이콘 색상은 컨텍스트에 따라 3가지 컬러를 사용한다.
+> 테이블 내 상세 섹션(중·하단 테이블) 타이틀 영역
 
-| 컬러 | 값 | 용도 |
+```
+height: 48px
+padding: 0px 16px
+background: #FFFFFF
+border-bottom: 1px solid #E6E6E6
+border-radius: 8px 8px 0px 0px
+
+아이콘(arrow-up-filled / arrow-down-filled): 24×24px, polygon: #242424
+제목: KR/Headline/16-bold, color: #242424
+```
+
+---
+
+### 5-7. Empty State
+
+```
+width: 280px
+padding: 24px 10px
+gap: 12px
+display: flex
+flex-direction: column
+align-items: center
+
+아이콘(search): 24×24px, color: #929292
+
+메인 텍스트: KR/Body/14-medium, color: #7E7E7E
+  예시: "선택된 항목 없음"
+
+서브 텍스트: KR/Body/12-regular, color: #B3B3B3
+  예시: "상세정보를 보기 위해 상단에서 항목을 선택해주세요."
+```
+
+---
+
+### 5-8. 총계 배지 (Summary Badge)
+
+```
+position: absolute (테이블 우측 상단 플로팅)
+left: 1877px, top: 633px
+
+width: 278px, height: 28px
+padding: 4px 12px
+gap: 12px
+background: #F1F1F1
+border-radius: 4px
+
+텍스트 3개 (gap: 12px):
+  font: KR/Body/14-medium, color: #7E7E7E
+  예시: "총예정 999,999" | "총완료 999" | "총잔여 999"
+```
+
+---
+
+### 5-9. Summary (출고 현황) — 신규
+
+```
+width: 1768px, height: 176px
+display: flex
+flex-direction: column
+gap: 4px
+```
+
+#### 타이틀 행
+
+```
+height: 32px
+gap: 12px
+
+제목: KR/Headline/16-bold, color: rgba(0,0,0,0.88)  예: "출고 현황"
+
+기준 시각 (우측 정렬):
+  날짜시간: EN/Body/12-regular, Noto Sans Mono, color: #7E7E7E  예: "2026-01-09 11:15:54"
+  "기준" 라벨: KR/Body/12-regular, color: #7E7E7E
+```
+
+#### Filter Tag Group
+
+```
+width: 379px, height: 32px
+background: #F1F1F1
+border-radius: 8px
+padding: 0px 2px
+gap: 2px
+display: flex
+```
+
+**filterTag (활성 — 선택됨)**
+
+```
+width: 49px, height: 28px
+background: #FFFFFF
+box-shadow: 0px 0px 2px rgba(0,0,0,0.08)
+border-radius: 6px
+padding: 4px 12px
+
+라벨: Pretendard/text-m-medium, color: #245EFF
+```
+
+**filterTag (비활성 — 미선택)**
+
+```
+height: 32px
+border-radius: 4px
+padding: 8px 12px
+
+라벨: Pretendard/text-m-medium, color: #8A8A8A
+```
+
+#### 현황 카드 Box
+
+```
+width: 1128px, height: 140px
+display: flex
+flex-direction: row
+gap: 8px
+```
+
+**현황 카드 단위 (6개 반복)**
+
+```
+width: 180px ~ 185px (min-width: 180px)
+height: 140px
+background: #FFFFFF
+border: 1px solid #E6E6E6
+border-radius: 8px
+padding: 20px
+gap: 12px
+display: flex
+flex-direction: column
+```
+
+*카드 헤더*
+
+```
+height: 24px
+gap: 12px
+
+카드 제목: KR/Headline/16-bold, color: #242424
+
+작업 상태 배지 (선택적):
+  background: #F1F1F1
+  border-radius: 4px
+  padding: 1px 8px
+  텍스트: KR/Body/12-regular, color: #7E7E7E  예: "시작 전"
+```
+
+*카드 수치 (count)*
+
+```
+gap: 4px
+
+미완료(uncomplete) 행:
+  라벨: KR/Body/12-regular, color: #7E7E7E  예: "미완료"
+  수치: EN/Headline/24-bold, color: #242424  예: "50,711"
+
+완료(complete) 행:
+  라벨: KR/Body/12-regular, color: #7E7E7E  예: "완료"
+  수치: EN/Headline/16-bold, color: #7E7E7E  예: "122,482"
+```
+
+---
+
+### 5-10. StatusTag
+
+> 항목의 현재 상태 또는 진행 상황을 시각적으로 표현하는 컴포넌트. Pretendard 폰트 사용.
+
+#### 기본 구조
+
+```
+display: flex
+flex-direction: row
+align-items: center
+gap: 4px
+isolation: isolate   ← tinted overlay 사용 variant에 적용
+
+height: 20px
+border-radius: 4px
+padding: 2px 6px     ← 기본 (default·progress-primary·warning·critical)
+padding: 0px 6px     ← tinted overlay 사용 variant (progress-secondary·tertiary·success)
+```
+
+#### 내부 요소 레이어 순서 (z-index)
+
+| order | 요소 | 설명 |
 |---|---|---|
-| `gray/600` | #7E7E7E | 기본 UI 아이콘 (비활성, 보조) |
-| `gray/800` | #242424 | 강조 액션 아이콘, 닫기 등 |
-| `blue/300` | #649CFF | 물류 프로세스 전용 아이콘 (LNB 활성 상태) |
+| 0 | `tinted` | `rgba(0,0,0,0.05)` 오버레이, 일부 variant에만 존재 |
+| 1 | `badge` | 6×6px dot, `display:none` (기본값, 옵션) |
+| 2 | `status` (label) | 라벨 텍스트 |
+| 3 | `count` | 숫자, `display:none` (기본값, hasCount=true 시 표시) |
+| 4 | `infoIcon` | 16×16px, `display:none` (기본값, 옵션) |
 
----
+#### 라벨 타이포그래피
 
-### 내비게이션 & 레이아웃
+```
+/* statusTag/label-xs */
+font-family: 'Pretendard'
+font-weight: 500
+font-size: 12px
+line-height: 150%   (= 18px)
 
-| 아이콘명 | 컬러 | 설명 |
+/* statusTag/count-xs */
+font-family: 'Pretendard'
+font-weight: 600
+font-size: 12px
+line-height: 150%
+color: #000000   ← count는 항상 검정
+```
+
+#### variant별 CSS 스펙
+
+**default** (중립 상태)
+```
+background: #FFFFFF
++ tinted: rgba(0,0,0,0.05)  ← 실제 렌더 색상 ≈ #F2F2F2
+color: #666666
+badge: #666666
+```
+
+**progress / primary** (진행 — blue)
+```
+background: #E2F1FF
+color: #245EFF
+badge: #245EFF
+※ tinted 없음
+```
+
+**progress / secondary** (진행 — teal)
+```
+background: #E6FFFB
++ tinted: rgba(0,0,0,0.05)
+color: #08979C
+badge: #08979C
+padding: 0px 6px
+```
+
+**progress / tertiary** (진행 — purple)
+```
+background: #F9F0FF
++ tinted: rgba(0,0,0,0.05)
+color: #722ED1
+badge: #722ED1
+padding: 0px 6px
+```
+
+**success** (완료)
+```
+background: #ECFFEC
++ tinted: rgba(0,0,0,0.05)
+color: #1EA514
+badge: #1EA514
+```
+
+**warning** (주의·경고)
+```
+background: #FFF4E5
+color: #DB7F00
+badge: #DB7F00
+※ tinted 없음
+```
+
+**critical** (중단·즉시 조치)
+```
+background: #FFECEC
+color: #D50F0E
+badge: #D50F0E
+※ tinted 없음
+```
+
+#### Props 정리
+
+| Prop | 값 | 설명 |
 |---|---|---|
-| `menu` | `gray/600` | 햄버거 메뉴 |
-| `close` | `gray/800` | 닫기(X) |
-| `home` | `gray/600` | 홈 |
-| `home-small` | `gray/600` | 소형 홈 (브레드크럼용) |
-| `chevrons-right` | `gray/600` | 오른쪽 이중 화살표 |
-| `chevrons-left` | `gray/600` | 왼쪽 이중 화살표 |
-| `chevrons-down` | `gray/600` | 아래쪽 이중 화살표 |
-| `chevrons-up` | `gray/600` | 위쪽 이중 화살표 |
-| `pin` | `blue/300` | 센터 핀 고정 |
+| `variant` | `default` \| `progress` \| `success` \| `warning` \| `critical` | 상태 의미 |
+| `progressType` | `primary` \| `secondary` \| `tertiary` | `variant="progress"` 일 때만 사용 |
+| `emphasis` | `solid` \| `subtle` | solid: 배경 포함 / subtle: 텍스트 중심 |
+| `size` | `xsmall` \| `small` \| `medium` | 컴포넌트 크기 |
+| `hasCount` | `boolean` | 라벨 옆 숫자 표시 여부 |
+| `count` | `number` | hasCount=true 일 때 표시할 값 |
+| `badge` | `boolean` | dot 배지 표시 여부 |
+| `infoIcon` | `boolean` | 우측 정보 아이콘 표시 여부 |
+
+#### progressType 사용 지침
+
+- `variant="progress"` 일 때만 사용
+- 우선순위를 의미하지 않으며, 기본 사용 순서는 `primary → secondary → tertiary` 권장
+- 도메인 맥락에 따라 일부 타입만 선택하거나 순서 변경 가능
+- `primary` 없이 `secondary`/`tertiary`를 단독 사용하려면 의도가 명확한 맥락에서만 허용
 
 ---
 
-### 방향 화살표
+## 6. 공통 UI 패턴
 
-| 아이콘명 | 컬러 | 설명 |
+### 버튼 스펙 요약
+
+| 유형 | 크기 | BG | Border | Text Color |
+|---|---|---|---|---|
+| Primary (검색) | 120×36px / 120×28px | `#242424` | none | `#FFFFFF` |
+| Secondary | 120×36px / 113×28px | `#FFFFFF` | `1px #D9D9D9` | `#242424` |
+| Disabled | — | `#E6E6E6` | `1px #D9D9D9` | `#B3B3B3` |
+
+- 모든 버튼 `border-radius: 6px`
+- 대형(36px high): `padding: 8px 24px`
+- 소형(28px high): `padding: 4px 16px`
+
+### 체크박스
+
+```
+16×16px
+기본: background #FFFFFF, border #B3B3B3, border-radius: 4px
+```
+
+### 드롭다운 화살표
+
+```
+아이콘: icon/arrow-down-filled, 16×16px 또는 24×24px
+polygon color:
+  활성(선택됨): #242424
+  비활성(미선택): #929292
+transform: rotate(-180deg) [위 방향 표시]
+```
+
+### Divider
+
+| 유형 | 크기 | 색상 |
 |---|---|---|
-| `arrow-down-filled` | `gray/500` | 채워진 아래 화살표 (드롭다운) |
-| `arrow-up-filled` | `gray/500` | 채워진 위 화살표 |
-| `arrow-right-filled` | `gray/500` | 채워진 오른쪽 화살표 |
-| `arrow-left-filled` | `gray/500` | 채워진 왼쪽 화살표 |
-| `arrow-left-line` | `gray/800` | 선형 왼쪽 화살표 |
-| `arrow-right-line` | `gray/800` | 선형 오른쪽 화살표 |
-| `arrow-down-line` | `gray/800` | 선형 아래 화살표 |
-| `arrow-up-line` | `gray/800` | 선형 위 화살표 |
-| `arrow-down-thin line` | `gray/800` | 얇은 선형 아래 화살표 |
-| `arrow-up-thin line` | `gray/800` | 얇은 선형 위 화살표 |
+| 수직 (컬럼 간) | 1px × 16px | `#D9D9D9` |
+| 수직 (페이지 타이틀) | 2px × 16px | `#D9D9D9` |
+| 수평 (행 구분) | full-width × 1px | `#F1F1F1` |
+| 수평 (셀 하단) | full-width × 1px | `#E6E6E6` |
 
 ---
 
-### 정렬 & 테이블 조작
+## 7. 아이콘 목록
 
-| 아이콘명 | 컬러 | 설명 |
+| 아이콘 ID | 기본 색상 | 사용 위치 |
 |---|---|---|
-| `descending` | `gray/600` | 내림차순 정렬 |
-| `ascending` | `gray/600` | 오름차순 정렬 |
-| `sort-ascending` | `gray/800` | 정렬 오름차순 (컬럼 헤더) |
-| `sort-descending` | `gray/800` | 정렬 내림차순 (컬럼 헤더) |
-| `sorting-down` | `gray/600` | 소팅 다운 핸들 |
-| `handle` | `gray/600` | 드래그 핸들 (행 순서 조절) |
-| `drag-h` | `gray/800` | 수평 드래그 |
-| `drag-v` | `gray/800` | 수직 드래그 |
-| `transform` | `gray/800` | 변환/이동 |
+| `icon/chevrons-right` | `#7E7E7E` | LNB 로고 영역 |
+| `icon/chevrons-down` | `#7E7E7E` | 필터 열기 버튼 |
+| `icon/chevrons-up` | `#7E7E7E` | 필터 닫기 버튼 |
+| `icon/user` | `#7E7E7E` / `#929292` | LNB 유저 영역 |
+| `icon/home` | `#7E7E7E` | LNB 홈 메뉴 |
+| `icon/master` | `#7E7E7E` | LNB 마스터 메뉴 |
+| `icon/inbound` | `#649CFF` (활성) / `#7E7E7E` (비활성) | LNB 입고 메뉴 |
+| `icon/putaway` | `#7E7E7E` | LNB 입고처리 메뉴 |
+| `icon/outbound` | `#649CFF` (활성) / `#7E7E7E` (비활성) | LNB 출고 메뉴 |
+| `icon/inbound-return` | `#7E7E7E` | LNB 반품입고 메뉴 |
+| `icon/stock` | `#7E7E7E` | LNB 재고 메뉴 |
+| `icon/manager` | `#7E7E7E` | LNB 관리 메뉴 |
+| `icon/system` | `#7E7E7E` | LNB 시스템 메뉴 |
+| `icon/download` | `#929292` / `#242424` | LNB 하단 / 다운로드 버튼 |
+| `icon/download-all` | `#242424` | 전체 다운로드 버튼 |
+| `icon/pin` | `#7E7E7E` | 센터 레이블 앞 |
+| `icon/arrow-down-filled` | `#242424` / `#929292` | 드롭다운 화살표 |
+| `icon/arrow-up-filled` | `#242424` | 섹션 헤더, 탭 헤더 |
+| `icon/home-small` | `#929292` | 브레드크럼 홈 |
+| `icon/calender` | `#929292` | 날짜 입력 |
+| `icon/plus` | `#929292` | 텍스트 입력 우측 |
+| `icon/setting` | `#7E7E7E` | 테이블 설정 |
+| `icon/info` | `#7E7E7E` | 컬럼 헤더 정보 |
+| `icon/search` | `#929292` | Empty State |
+| `icon/drag-h` | `#FFFFFF` | 리사이즈 핸들 |
+| `icon/download-template` | `#242424` | 엑셀 드롭다운 — 템플릿 다운로드 |
+| `icon/upload` | `#242424` | 엑셀 드롭다운 — 엑셀 업로드 |
+
+> 모든 아이콘 기본 컨테이너: `left/right/top/bottom: 0% (position absolute, fill parent)`
 
 ---
 
-### 액션 & 인터랙션
+## 8. 간격 체계 (Spacing)
 
-| 아이콘명 | 컬러 | 설명 |
-|---|---|---|
-| `search` | `gray/500` | 검색 |
-| `calender` | `gray/500` | 날짜 선택 |
-| `plus` | `gray/500` | 추가 |
-| `minus` | `gray/500` | 제거 |
-| `edit` | `gray/500` | 편집 |
-| `check` | `blue/500` | 체크 확인 (체크박스 선택 상태) |
-| `setting` | `gray/800` | 설정 |
-| `more` | `gray/600` | 더보기(···) |
-| `reset` | `gray/600` | 초기화 |
-| `newtab` | `gray/800` | 새 탭 열기 |
-| `pin` | `blue/300` | 고정 |
-| `star` | `gray/600` | 즐겨찾기 |
-| `tip` | `gray/800` | 팁/도움말 |
-| `ban` | `gray/800` | 금지/차단 |
-| `info` | `gray/800` | 정보 |
-| `trash` | `gray/800` | 삭제 |
-| `copy` | `gray/800` | 복사 |
-| `print` | `gray/800` | 인쇄 |
-| `delete` | `gray/500` | 삭제(소프트) |
-
----
-
-### 다운로드 & 업로드
-
-| 아이콘명 | 컬러 | 설명 |
-|---|---|---|
-| `download` | `gray/800` | 다운로드 |
-| `upload` | `gray/800` | 업로드 |
-| `download-all` | `gray/800` | 전체 다운로드 |
-| `download-template` | `gray/800` | 템플릿 다운로드 |
-
----
-
-### LNB 메뉴 (물류 도메인)
-
-LNB 전용 아이콘. 기본 상태는 `gray/600`, 활성(active) 상태는 `blue/300`(#649CFF)으로 전환된다.
-
-| 아이콘명 | 설명 |
+| 값 | 사용처 |
 |---|---|
-| `master` | 마스터 데이터 |
-| `strategy` | 전략/정책 |
-| `manager` | 관리자 |
-| `system` | 시스템 |
-| `dashboard` | 대시보드 |
-| `home` | 홈 |
-| `inbound` | 입고 |
-| `outbound` | 출고 |
-| `stock` | 재고 |
-| `putaway` | 입고 적치 |
-| `bagging` | 포장 |
+| 2px | Filter Tag 내부 gap |
+| 4px | 셀 패딩(행), 아이콘-텍스트 간격, 현황 카드 수치 간격 |
+| 6px | 필터 행 간 gap |
+| 7px | 현황 카드 수치 행 내부 gap |
+| 8px | 셀 패딩(헤더), 버튼 내부 gap, 스크롤바 상하, 체크박스-라벨 gap |
+| 10px | 버튼 내부 gap (일반), 아이콘 컨테이너 gap |
+| 12px | 브레드크럼 gap, 카운트 배지 gap, 버튼 그룹 gap, 현황 카드 패딩 내 gap |
+| 16px | 필터 라벨-입력 gap, LNB 리스트 padding, 페이지 패딩 |
+| 20px | 필터 행 좌우 padding, 현황 카드 padding |
+| 24px | 페이지 상단 padding, 버튼 좌우 padding(대형), 현황 카드 padding |
+| 32px | 페이지 우측 padding |
+| 40px | 필터 컬럼 gap |
 
 ---
 
-### 물류 프로세스 전용 (`blue/300` #649CFF 고정)
+## 9. 반응형 / 크기 변수
 
-프로세스 실행 맥락(작업 지시, 이동, 반품 등)에서 사용되는 아이콘으로, 항상 `blue/300`을 사용한다.
-
-| 아이콘명 | 설명 |
+| 항목 | 값 |
 |---|---|
-| `sorting` | 분류 작업 |
-| `picking` | 피킹 |
-| `move` | 이동 |
-| `return` | 반품 |
-| `sorting-return` | 분류 반품 |
-| `inbound-return` | 입고 반품 |
-| `putaway-return` | 적치 반품 |
-| `search-location` | 로케이션 검색 |
-| `search-product` | 상품 검색 |
-| `arrival-return` | 입하 반품 |
+| 전체 캔버스 | 1920px |
+| LNB | 88px (fixed) |
+| Content Area | 1832px |
+| 컨텐츠 내부 너비 | 1768px |
+| 테이블 내 너비 | 1766px (border 1px × 2 제외) |
+| 페이지 padding (상/좌) | 24px 32px |
 
 ---
 
-### 상태 & 알림
+## 10. 화면별 스펙 추가 (시스템_사용자 / 재고이동지시)
 
-| 아이콘명 | 컬러 | 설명 |
+### 10-1. 시스템 › 사용자 화면 레이아웃
+
+이 화면은 기존 LNB(88px) + 좌측 메인 테이블 + 우측 상세 패널의 2-column 구조입니다.
+
+**우측 상세 패널 (센터 사용여부 수정)**
+
+```
+position: absolute
+width: 416px
+height: 818px
+left: 1472px
+top: 230px
+background: #F1F1F1
+border-radius: 8px
+```
+
+패널 내부 구성:
+- 패널 타이틀: `KR/Headline/16-bold` / `#242424` — 위치 `top: 250px`
+- 설명 텍스트: `KR/Body/14-regular` / `#242424` — 위치 `top: 278px`
+- 내부 테이블: `width: 376px`, `border: 1px solid #E6E6E6`, `border-radius: 8px` — 위치 `top: 315px`
+
+**우측 패널 내부 테이블 헤더 (3컬럼 구조)**
+
+```
+T_Head height: 34px
+background: #F1F1F1
+border-bottom: 1px solid #E6E6E6
+컬럼 3개 균등 분할 (각 124px)
+```
+
+**Empty State (항목 미선택 시)**
+
+```
+display: flex
+flex-direction: column
+align-items: center
+gap: 12px
+padding: 24px 10px
+
+아이콘: icon/search (24×24px, #929292)
+주 텍스트: KR/Body/14-medium, #7E7E7E  ("선택된 항목 없음")
+보조 텍스트: KR/Body/12-regular, #B3B3B3  ("상세정보를 보기 위해 좌측에서 항목을 선택해주세요.")
+```
+
+**엑셀 드롭다운 메뉴**
+
+```
+width: 175px
+filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.05))
+border-radius: 4px 4px 0px 0px (상단) / 0px 0px 4px 4px (하단)
+
+아이템 행 height: 28px
+padding: 4px 8px
+background 활성: #F1F1F1
+background 비활성: #FFFFFF
+
+아이템 텍스트: KR/Body/14-regular, #242424
+아이콘: 16×16px (icon/download-template, icon/upload)
+```
+
+---
+
+### 10-2. 재고이동지시 화면 레이아웃
+
+이 화면은 LNB(88px) + 전체 너비 1768px 단일 컬럼 구조입니다. 테이블이 상하 2단으로 resizing bar로 분리됩니다.
+
+**전체 레이아웃**
+
+```
+content-area: left: 88px, padding: 24px 32px
+content-width: 1768px
+구성: page title → filter area → 상단 테이블 → resizing bar → 하단 테이블
+```
+
+**상단 테이블 (재고이동지시 목록)**
+
+```
+width: 1768px
+height: 842px (가변)
+border: 1px solid #E6E6E6
+border-radius: 8px
+
+List_Head: height 44px, gap: 20px (출고 Wave의 gap: 946px과 다름)
+Btn_List: justify-content flex-end (우측 정렬)
+```
+
+컬럼 구조 예시:
+
+| 컬럼 | 너비 | 비고 |
 |---|---|---|
-| `noti-off` | `gray/500` | 알림 비활성 |
-| `noti-on` | `gray/800` + `yellow/500` 도트 | 알림 활성 (노란 뱃지) |
-| `loading` | `gray/600` | 로딩 스피너 |
-| `check-oval` | `gray/500` | 원형 체크 확인 |
-| `alert-oval` | `red/500` #F94A4A | 원형 경고 |
-| `user` | `gray/500` | 사용자 |
+| checkbox | 32px | Disabled 상태: `#E6E6E6` + `#D9D9D9` |
+| 상태 (StatusTag) | 101.38px | row height 28px |
+| 코드 | 146px | |
+| 위치/담당자 | 101.38px × n | flex-grow: 1 |
+| 날짜 컬럼 | 204px / 196px | `#E6E6E6` 배경 (읽기전용 표시) |
+| 수량 컬럼 | 72px × 2 | |
+
+**행 높이**: 28px (재고이동지시) — 기존 출고 Wave의 40px, 입고 테이블의 26px과 구별
+
+**Disabled 체크박스** (재고이동지시·시스템_사용자 공통)
+
+```
+/* 일반 체크박스와 다른 Disabled 상태 */
+background: #E6E6E6   (기본은 #FFFFFF)
+border-color: #D9D9D9  (기본은 #B3B3B3)
+border-radius: 4px
+```
+
+**읽기전용 셀 (회색 배경)**
+
+재고이동지시 테이블 일부 셀은 `background: #E6E6E6`으로 읽기전용 상태를 시각 표시합니다.
+
+**하단 테이블 (이동 이력/상세)**
+
+```
+width: 1768px
+height: 385px
+border: 1px solid #E6E6E6
+border-radius: 0px 0px 8px 8px   ← resizing bar 아래에 붙으므로 상단 radius 없음
+
+header/title: height 48px, border-bottom: 1px solid #E6E6E6
+  - icon/arrow-up-filled (24×24px) + 타이틀 텍스트 KR/Headline/16-bold
+```
+
+하단 테이블 컬럼 구조 (6컬럼 균등):
+
+```
+6컬럼 균등 분할 (각 293.83px = 1768 / 6)
+T_Head: height 34px, background: #F1F1F1
+데이터 행: height 26px
+```
+
+**btn_Bottom (하단 액션 바)**
+
+재고이동지시 화면의 하단 액션 바 버튼 구성:
+
+```
+height: 52px
+padding: 8px 16px
+
+표시 버튼: 취소(100px, Secondary) — 기타 버튼 display:none
+선택 카운트 텍스트: "체크한 행 n개를" — KR/Body/14-medium, #929292
+```
 
 ---
 
-## 반응형 & 기기 대응
+### 10-3. 체크박스 상태 정리 (전체 화면 통합)
 
-무신사 로지스틱스 시스템은 **Web(데스크탑)**과 **PDA(핸드헬드 스캐너)** 두 가지 폼팩터를 지원한다.
+| 상태 | Rectangle 147 (배경) | Rectangle 148 (테두리) | border-radius |
+|---|---|---|---|
+| 기본 (default) | `#FFFFFF` | `#B3B3B3` | 4px (입고/시스템) / 2px (출고Wave) |
+| 체크됨 (checked) | `#242424` | — | — |
+| Disabled | `#E6E6E6` | `#D9D9D9` | 4px |
 
-| 환경 | 특성 |
-|---|---|
-| Web | 1280–1440px 기준 레이아웃, 풀 LNB 표시, 고밀도 테이블 데이터 |
-| PDA | 핸드헬드 기기 최적화, 터치 타겟 최소 44px, 단순화된 인터페이스 |
+> Disabled 체크박스는 시스템_사용자, 재고이동지시 화면에서 확인됩니다.
 
-폰트 스케일 자체는 동일하게 유지하되, PDA 환경에서는 Display/32 규격보다 Headline 규격이 주로 사용된다.
-
----
-
-## 알려진 미비 사항
-
-- 체크박스(테이블 셀 내 포함 제외), 라디오 버튼, 토글 스위치 등 독립형 폼 컴포넌트 토큰이 명세되지 않았다.
-- 뱃지(Badge), 태그(Tag), 토스트(Toast) 컴포넌트의 컬러 토큰이 별도 시트로 분리되지 않았다.
-- 아이콘별 SVG path 데이터는 Figma 라이브러리에만 존재하며, 본 문서에는 이름·컬러·용도만 기술되어 있다.
-- 호버(Hover) 상태는 토큰 명세에 포함되어 있으나 실제 인터랙션 애니메이션 사양(트랜지션 시간, 이징)은 문서화되어 있지 않다.
-- 모바일(PDA) 전용 컴포넌트 변형 규격이 별도 명세되지 않았다.
-- 다크모드 전체 페이지 테마(LNB Inverse 전용이 아닌 전체 화면 다크)는 분석된 시트에 포함되어 있지 않다.
